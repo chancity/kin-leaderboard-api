@@ -1,45 +1,41 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using kin_leaderboard_api.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace kin_leaderboard_api.Repository.Abstract
 {
-    public abstract class BaseRepository<T> where T : class
+    public abstract class AbstractRepository<T> where T : class
     {
         private DbSet<T> _dbSet;
         private DbSet<T> DbSet => _dbSet ?? (_dbSet = Context.Set<T>());
 
         protected readonly ApplicationContext Context;
 
-        protected BaseRepository(ApplicationContext context)
+        protected AbstractRepository(ApplicationContext context)
         {
             Context = context;
         }
 
-        public virtual void Add(T entity)
+        public virtual Task Add(T entity)
         {
-            DbSet.Add(entity);
+           return DbSet.AddAsync(entity);
         }
 
-        public virtual void Add(IEnumerable<T> entities)
+        public virtual Task Add(IEnumerable<T> entities)
         {
-            foreach (var entity in entities)
-            {
-                DbSet.Add(entity);
-            }
+           return DbSet.AddRangeAsync(entities);
         }
 
-        public virtual long Create(T entity)
+        public virtual async Task<int> Create(T entity)
         {
-            DbSet.Add(entity);
-
-            return SaveChanges();
+            await DbSet.AddAsync(entity).ConfigureAwait(false);
+            return await SaveChanges().ConfigureAwait(false);
         }
 
-        public virtual int Delete(T entity)
+        public virtual Task<int> Delete(T entity)
         {
             DeleteWithoutSave(entity);
-
             return SaveChanges();
         }
 
@@ -51,9 +47,9 @@ namespace kin_leaderboard_api.Repository.Abstract
             }
         }
 
-        public virtual int SaveChanges()
+        public virtual Task<int> SaveChanges()
         {
-            return Context.SaveChanges();
+            return Context.SaveChangesAsync();
         }
     }
 }

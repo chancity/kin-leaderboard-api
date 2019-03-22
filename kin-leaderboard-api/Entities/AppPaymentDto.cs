@@ -3,18 +3,14 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace kin_leaderboard_api.Entities
 {
-    public class AppPayment
+    public class AppPaymentDto
     {
-        [Key]
         public int Id { get; set; }
-        [Key]
         public string AppId { get; set; }
         [ForeignKey(nameof(AppId))]
-        public App App { get; set; }
+        public AppDto AppDto { get; set; }
         public long EpochTime { get; set; }
         public string Sender { get; set; }
         public string Recipient { get; set; }
     }
-
-    public class UniqueDayPayment : AppPayment { }
 }

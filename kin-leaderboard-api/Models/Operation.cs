@@ -1,8 +1,12 @@
-﻿using kin_leaderboard_api.Models;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using kin_leaderboard_api.Enums;
 
-namespace kin_leaderboard_api.Entities
+namespace kin_leaderboard_api.Models
 {
-    public class AppOperation
+    public class Operation
     {
         public long PagingToken { get; set; }
         public string Cursor { get; set; }
@@ -11,7 +15,6 @@ namespace kin_leaderboard_api.Entities
         public string AppId { get; set; }
         public string Sender { get; set; }
         public string Recipient { get; set; }
-        public long Amount { get; set; }
-
+        public long Amount { get; set; }       
     }
 }

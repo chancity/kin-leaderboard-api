@@ -1,4 +1,4 @@
-﻿namespace kin_leaderboard_api.Models
+﻿namespace kin_leaderboard_api.Enums
 {
     public enum OperationType
     {

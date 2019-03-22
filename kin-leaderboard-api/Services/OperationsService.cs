@@ -1,20 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using kin_leaderboard_api.Repository;
+﻿using AutoMapper;
+using kin_leaderboard_api.Entities;
+using kin_leaderboard_api.Models;
+using kin_leaderboard_api.Services.Abstract;
 using Microsoft.Extensions.Logging;
 
 namespace kin_leaderboard_api.Services
 {
-    public class OperationsService
+    public class OperationsService : AbstractService<AppOperationDto, Operation, long>
     {
-        private ILogger _logger;
-        private OperationsRepository _operationsRepository;
-        public OperationsService(ILoggerFactory loggerFactory, OperationsRepository operationsRepository)
+
+        public OperationsService(ILoggerFactory loggerFactory, ApplicationContext context, IMapper mapper) : base(loggerFactory.CreateLogger<OperationsService>(), context, mapper)
         {
-            _logger = loggerFactory.CreateLogger<OperationsService>();
-            _operationsRepository = operationsRepository;
         }
     }
 

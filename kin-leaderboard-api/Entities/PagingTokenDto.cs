@@ -7,11 +7,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace kin_leaderboard_api.Entities
 {
-    public class PagingToken
+    public class PagingTokenDto
     {
-        [Key]
-        public long Id { get; }
-        [Key]
-        public string Cursor { get; }
+        public long Value { get; set; }
+        public string Cursor { get; set; }
     }
 }

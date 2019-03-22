@@ -20,9 +20,10 @@ namespace kin_leaderboard_api
         private static readonly Dictionary<string, string> DefaultConfiguration = new Dictionary<string, string>
         {
             {"ConnectionStrings_ApplicationDatabase", "server=localhost;database=application_api;uid=root;pwd=password"},
-            {"Horizon_Url", "https://horizon-testnet.kininfrastructure.com/"},
-            {"HorizonNetwork_Id", "Kin Testnet ; December 2018" },
-            {"Api_Key", "SuperSecretYo" }
+            {"Horizon_Url", "https://horizon.kinfederation.com/"},
+            {"HorizonNetwork_Id", "Kin Mainnet ; December 2018" },
+            {"Api_Key", "SuperSecretYo" },
+            {"Swagger_Enabled", "True" },
         };
 
         public static void Main(string[] args)
