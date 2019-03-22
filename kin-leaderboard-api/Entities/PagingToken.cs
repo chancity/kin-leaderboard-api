@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
-namespace kin_kre_api.Entities
+namespace kin_leaderboard_api.Entities
 {
     public class PagingToken
     {

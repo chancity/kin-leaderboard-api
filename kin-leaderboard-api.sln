@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.489
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "kin-kre-api", "kin-kre-api\kin-kre-api.csproj", "{8D4402BC-6AB9-47E7-B9B9-BA7EC855DC39}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "kin-leaderboard-api", "kin-leaderboard-api\kin-leaderboard-api.csproj", "{8D4402BC-6AB9-47E7-B9B9-BA7EC855DC39}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-namespace kin_kre_api.Services.Hosted
+namespace kin_leaderboard_api.Services.Hosted
 {
     internal class TimedHostedService : IHostedService, IDisposable
     {

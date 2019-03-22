@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace kin_kre_api.Entities
+namespace kin_leaderboard_api.Entities
 {
     public class App
     {

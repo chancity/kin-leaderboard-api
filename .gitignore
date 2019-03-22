@@ -12,6 +12,7 @@
 
 # Build results
 [Dd]ebug/
+[Pp]operties/
 [Dd]ebugPublic/
 [Rr]elease/
 [Rr]eleases/
@@ -259,3 +260,4 @@ paket-files/
 # Python Tools for Visual Studio (PTVS)
 __pycache__/
 *.pyc
+/kin-leaderboard-api/Properties/launchSettings.json

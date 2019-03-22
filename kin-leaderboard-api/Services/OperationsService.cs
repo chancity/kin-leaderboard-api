@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using kin_kre_api.Repository;
+using kin_leaderboard_api.Repository;
 using Microsoft.Extensions.Logging;
 
-namespace kin_kre_api.Services
+namespace kin_leaderboard_api.Services
 {
     public class OperationsService
     {

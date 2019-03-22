@@ -1,7 +1,7 @@
-﻿using kin_kre_api.Services;
+﻿using kin_leaderboard_api.Services;
 using Microsoft.AspNetCore.Mvc;
 
-namespace kin_kre_api.Controllers
+namespace kin_leaderboard_api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

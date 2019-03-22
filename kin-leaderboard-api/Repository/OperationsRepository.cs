@@ -1,7 +1,7 @@
-﻿using kin_kre_api.Entities;
-using kin_kre_api.Repository.Abstract;
+﻿using kin_leaderboard_api.Entities;
+using kin_leaderboard_api.Repository.Abstract;
 
-namespace kin_kre_api.Repository
+namespace kin_leaderboard_api.Repository
 {
     public class OperationsRepository : BaseRepository<AppOperation>
     {

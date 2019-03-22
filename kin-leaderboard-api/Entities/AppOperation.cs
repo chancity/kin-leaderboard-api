@@ -1,6 +1,6 @@
-﻿using kin_kre_api.Models;
+﻿using kin_leaderboard_api.Models;
 
-namespace kin_kre_api.Entities
+namespace kin_leaderboard_api.Entities
 {
     public class AppOperation
     {

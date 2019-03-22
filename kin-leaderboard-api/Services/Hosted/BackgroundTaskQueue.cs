@@ -3,7 +3,7 @@ using System.Collections.Concurrent;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace kin_kre_api.Services.Hosted
+namespace kin_leaderboard_api.Services.Hosted
 {
     public interface IBackgroundTaskQueue
     {
