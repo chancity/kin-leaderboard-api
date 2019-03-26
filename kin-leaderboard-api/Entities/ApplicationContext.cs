@@ -182,6 +182,11 @@ namespace kin_leaderboard_api.Entities
                     .IsRequired()
                     .HasColumnType("varchar(56)");
 
+                entity.Property(e => e.Amount)
+                    .HasColumnName("amount")
+                    .IsRequired()
+                    .HasColumnType("bigint");
+
                 entity.Property(e => e.EpochTime)
                     .HasColumnName("epoch_time")
                     .IsRequired()

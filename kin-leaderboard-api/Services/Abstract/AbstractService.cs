@@ -15,14 +15,14 @@ namespace kin_leaderboard_api.Services.Abstract
         Task Put(TId id, TModel value);
         Task<int> Delete(TId id);
     }
-    public abstract class AbstractService<TDto, TModel, TId> : IAppService<TModel, TId> where TDto : class, new() where TModel : class, new()
+    public  class AbstractService<TDto, TModel, TId> : IAppService<TModel, TId> where TDto : class, new() where TModel : class, new()
     {
         protected ILogger Logger;
         protected BaseRepository<TDto, TId> Repo;
         protected readonly IMapper Mapper;
-        protected AbstractService(ILogger logger, ApplicationContext context, IMapper mapper)
+        public AbstractService(ILoggerFactory loggerFactory, ApplicationContext context, IMapper mapper)
         {
-            Logger = logger;
+            Logger = loggerFactory.CreateLogger(GetType().Name);
             Repo = new BaseRepository<TDto, TId>(context);
             Mapper = mapper;
         }

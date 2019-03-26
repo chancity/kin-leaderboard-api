@@ -2,6 +2,7 @@
 {
     public enum OperationType
     {
+        Operation,
         CreateAccount,
         Payment
     }

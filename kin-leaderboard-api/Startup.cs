@@ -7,6 +7,7 @@ using kin_leaderboard_api.Exceptions;
 using kin_leaderboard_api.Models;
 using kin_leaderboard_api.Repository;
 using kin_leaderboard_api.Services;
+using kin_leaderboard_api.Services.Abstract;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -15,7 +16,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using Swashbuckle.AspNetCore.Swagger;
-using Operation = Swashbuckle.AspNetCore.Swagger.Operation;
 
 namespace kin_leaderboard_api
 {
@@ -33,17 +33,20 @@ namespace kin_leaderboard_api
         {
             var isProduction = Configuration["ASPNETCORE_ENVIRONMENT"].Equals("Production");
 
-            services.AddTransient<OperationsService>();
             services.AddTransient<AppService>();
+            services.AddTransient<AppMetricService>();
+            services.AddTransient<AbstractService<AppOperationDto, Models.Operation, long>>();
+            services.AddTransient<AbstractService<PagingTokenDto, PagingToken, string>>();
 
             services.AddAutoMapper(cfg =>
             {
                 cfg.AllowNullCollections = true;
-                cfg.CreateMap<AppOperationDto, Operation>().ReverseMap();
+                cfg.CreateMap<AppOperationDto, Models.Operation>().ReverseMap();
                 cfg.CreateMap<AppDto, App>().ReverseMap();
                 cfg.CreateMap<AppInfoDto, AppInfo>().ReverseMap();
+                cfg.CreateMap<PagingTokenDto, PagingToken>().ReverseMap();
                 cfg.CreateMap<AppWalletDto, AppWallet>().ReverseMap();
-                
+                cfg.CreateMap<DayMetricDto, AppMetric>().ReverseMap();
             });
             services.AddMvc()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
@@ -108,7 +111,7 @@ namespace kin_leaderboard_api
             {
                 app.UseHttpStatusCodeExceptionMiddleware();
                 app.UseHsts();
-                app.UseHttpsRedirection();
+               // app.UseHttpsRedirection();
             }
 
             if (bool.TryParse(Configuration["Swagger_Enabled"], out var ret) && ret)
@@ -123,7 +126,6 @@ namespace kin_leaderboard_api
 
             }
 
-            app.UseHttpsRedirection();
             app.UseAuthentication();
             app.UseMvc(routes =>
             {

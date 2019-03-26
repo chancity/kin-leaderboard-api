@@ -13,7 +13,7 @@ namespace kin_leaderboard_api.Services
     {
 
         public AppService(ILoggerFactory loggerFactory, ApplicationContext context, IMapper mapper) 
-            : base(loggerFactory.CreateLogger<AppService>(), context, mapper) {}
+            : base(loggerFactory, context, mapper) {}
 
         public override async Task<App> Get(string id)
         {

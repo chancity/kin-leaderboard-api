@@ -2,7 +2,6 @@
 using kin_leaderboard_api.Models;
 using kin_leaderboard_api.Models.ApiResponse;
 using kin_leaderboard_api.Services;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace kin_leaderboard_api.Controllers

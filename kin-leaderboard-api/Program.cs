@@ -39,9 +39,9 @@ namespace kin_leaderboard_api
         }
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
+            WebHost.CreateDefaultBuilder(args).UseUrls("http://0.0.0.0:5000")
                 .UseStartup<Startup>();
-
+            
         public static async Task DbSeed(IWebHost host)
         {
             using (IServiceScope scope = host.Services.CreateScope())

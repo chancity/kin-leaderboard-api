@@ -9,7 +9,6 @@ namespace kin_leaderboard_api.Entities
         public string AppId { get; set; }
         [ForeignKey(nameof(AppId))]
         public AppDto AppDto { get; set; }
-        public long Balance { get; set; }
         public string FriendlyName { get; set; }
         public long TxCount { get; set; }
         public long TxVolume { get; set; }

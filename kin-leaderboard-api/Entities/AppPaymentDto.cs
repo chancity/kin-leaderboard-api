@@ -12,5 +12,6 @@ namespace kin_leaderboard_api.Entities
         public long EpochTime { get; set; }
         public string Sender { get; set; }
         public string Recipient { get; set; }
+        public long Amount { get; set; }
     }
 }

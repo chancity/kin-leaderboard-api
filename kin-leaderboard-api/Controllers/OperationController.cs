@@ -1,7 +1,7 @@
-﻿using System.Threading.Tasks;
+﻿using kin_leaderboard_api.Entities;
 using kin_leaderboard_api.Models;
-using kin_leaderboard_api.Models.ApiResponse;
 using kin_leaderboard_api.Services;
+using kin_leaderboard_api.Services.Abstract;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,11 +10,11 @@ namespace kin_leaderboard_api.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]
-    public class OperationController : AbstractController<OperationsService, Operation, long>
+    public class OperationController : AbstractController<AbstractService<AppOperationDto, Operation, long>, Operation, long>
     {
-        private readonly OperationsService _service;
+        private readonly AbstractService<AppOperationDto, Operation, long> _service;
 
-        public OperationController(OperationsService service) : base(service)
+        public OperationController(AbstractService<AppOperationDto, Operation, long> service) : base(service)
         {
             _service = service;
         }

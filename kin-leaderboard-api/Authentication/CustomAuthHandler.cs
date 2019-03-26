@@ -29,7 +29,10 @@ namespace kin_leaderboard_api.Authentication
                             new AuthenticationProperties(),
                             this.Scheme.Name)));
             }
-
+            else
+            {
+                return Task.FromResult(AuthenticateResult.NoResult());
+            }
 
             throw new UnauthorizedApiException("Authorization header missing or incorrect");
             //return Task.FromResult(AuthenticateResult.Fail("sd"));
