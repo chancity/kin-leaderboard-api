@@ -8,13 +8,6 @@ using Microsoft.Extensions.Logging;
 
 namespace kin_leaderboard_api.Services.Abstract
 {
-    public interface IAppService<TModel, TId>
-    {
-        Task<TModel> Get(TId id);
-        Task<int> Post(TModel value);
-        Task Put(TId id, TModel value);
-        Task<int> Delete(TId id);
-    }
     public  class AbstractService<TDto, TModel, TId> : IAppService<TModel, TId> where TDto : class, new() where TModel : class, new()
     {
         protected ILogger Logger;
