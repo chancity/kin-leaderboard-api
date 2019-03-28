@@ -23,11 +23,6 @@ namespace kin_leaderboard_api.Controllers
         }
 
         [ApiExplorerSettings(IgnoreApi = true)]
-        public override Task<ActionResult<BaseResponseData<ApiResult>>> Post(Operation value)
-        {
-            throw new NotFoundApiException();
-        }
-        [ApiExplorerSettings(IgnoreApi = true)]
         public override Task<ActionResult<BaseResponseData<Operation>>> Put(long id, Operation value)
         {
             throw new NotFoundApiException();
