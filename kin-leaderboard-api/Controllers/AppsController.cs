@@ -33,21 +33,21 @@ namespace kin_leaderboard_api.Controllers
         }
 
         [HttpPut("{id}/FriendlyName")]
-        //[Authorize]
+        [Authorize]
         public async Task<ActionResult<BaseResponseData<ApiResult>>> UpdateFriendlyName(string id, string value)
         {
             return Ok(ToResultReponse(await Service.UpdateFriendlyName(id, value).ConfigureAwait(false)));
         }
 
         [HttpPut("{id}/Info")]
-        //[Authorize]
+        [Authorize]
         public async Task<ActionResult<BaseResponseData<ApiResult>>> UpdateInfo(string id, [FromBody] AppInfo value)
         {
             return Ok(ToResultReponse(await Service.UpdateInfo(id, value).ConfigureAwait(false)));
         }
 
         [HttpPut("{id}/Wallet")]
-        //[Authorize]
+        [Authorize]
         public async Task<ActionResult<BaseResponseData<ApiResult>>> UpdateWallet(string id, string address)
         {
             return Ok(ToResultReponse(await Service.UpdateWallet(id, new AppWallet(){Address = address, Balance = 0}).ConfigureAwait(false)));
