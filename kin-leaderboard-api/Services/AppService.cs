@@ -12,13 +12,12 @@ namespace kin_leaderboard_api.Services
 {
     public class AppService : AbstractService<AppEntity, App, string>
     {
-
-        public AppService(ILoggerFactory loggerFactory, ApplicationContext context, IMapper mapper) 
-            : base(loggerFactory, context, mapper) {}
+        public AppService(ILoggerFactory loggerFactory, ApplicationContext context, IMapper mapper)
+            : base(loggerFactory, context, mapper) { }
 
         public override async Task<App> Get(string id)
         {
-            var dbEntity = await Repo.GetContext
+            AppEntity dbEntity = await Repo.GetContext
                 .Apps
                 .Include(a => a.Info)
                 .Include(a => a.Wallet)
@@ -31,9 +30,10 @@ namespace kin_leaderboard_api.Services
 
             return Mapper.Map<AppEntity, App>(dbEntity);
         }
+
         public async Task<App[]> GetAllApps()
         {
-            var dbEntity = await Repo.GetContext
+            AppEntity[] dbEntity = await Repo.GetContext
                 .Apps
                 .Include(a => a.Info)
                 .Include(a => a.Wallet).ToArrayAsync().ConfigureAwait(false);
@@ -43,7 +43,7 @@ namespace kin_leaderboard_api.Services
 
         public async Task<PaginatedList<UserWallet>> GetUserWallets(string id, int pageIndex = 1)
         {
-            var dbEntityApp = await Repo.GetById(id).ConfigureAwait(false);
+            AppEntity dbEntityApp = await Repo.GetById(id).ConfigureAwait(false);
 
             if (dbEntityApp == null)
             {
@@ -60,7 +60,7 @@ namespace kin_leaderboard_api.Services
 
         public async Task<int> UpdateFriendlyName(string id, string value)
         {
-            var dbEntityApp = await Repo.GetById(id).ConfigureAwait(false);
+            AppEntity dbEntityApp = await Repo.GetById(id).ConfigureAwait(false);
 
             if (dbEntityApp == null)
             {
@@ -74,7 +74,7 @@ namespace kin_leaderboard_api.Services
 
         public async Task<int> UpdateInfo(string id, AppInfo value)
         {
-            var dbEntityApp = await Repo.GetById(id).ConfigureAwait(false);
+            AppEntity dbEntityApp = await Repo.GetById(id).ConfigureAwait(false);
 
             if (dbEntityApp == null)
             {
@@ -82,11 +82,12 @@ namespace kin_leaderboard_api.Services
             }
 
 
-            var dbEntityInfo = await Repo.GetContext
+            AppInfoEntity dbEntityInfo = await Repo.GetContext
                 .AppInfos
-                .FindAsync(id).ConfigureAwait(false); ;
+                .FindAsync(id).ConfigureAwait(false);
+            ;
 
-            var info = Mapper.Map(value, dbEntityInfo);
+            AppInfoEntity info = Mapper.Map(value, dbEntityInfo);
 
             if (dbEntityInfo == null)
             {
@@ -100,9 +101,10 @@ namespace kin_leaderboard_api.Services
 
             return await Repo.GetContext.SaveChangesAsync().ConfigureAwait(false);
         }
+
         public async Task<int> UpdateWallet(string id, AppWallet value)
         {
-            var dbEntityApp = await Repo.GetById(id).ConfigureAwait(false);
+            AppEntity dbEntityApp = await Repo.GetById(id).ConfigureAwait(false);
 
             if (dbEntityApp == null)
             {
@@ -110,11 +112,11 @@ namespace kin_leaderboard_api.Services
             }
 
 
-            var dbEntityWallet = await Repo.GetContext
+            AppWalletEntity dbEntityWallet = await Repo.GetContext
                 .AppWallets
                 .FindAsync(id, null).ConfigureAwait(false);
 
-            var wallet = Mapper.Map(value, dbEntityWallet);
+            AppWalletEntity wallet = Mapper.Map(value, dbEntityWallet);
 
             if (dbEntityWallet == null)
             {

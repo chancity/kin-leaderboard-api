@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 
-namespace kin_leaderboard_api.Services.Abstract {
+namespace kin_leaderboard_api.Services.Abstract
+{
     public interface IAppService<TModel, TId>
     {
         Task<TModel> Get(TId id);

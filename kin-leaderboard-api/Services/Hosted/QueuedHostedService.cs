@@ -10,13 +10,13 @@ namespace kin_leaderboard_api.Services.Hosted
     {
         private readonly ILogger _logger;
 
-        public QueuedHostedService(IBackgroundTaskQueue taskQueue,ILoggerFactory loggerFactory)
+        public IBackgroundTaskQueue TaskQueue { get; }
+
+        public QueuedHostedService(IBackgroundTaskQueue taskQueue, ILoggerFactory loggerFactory)
         {
             TaskQueue = taskQueue;
             _logger = loggerFactory.CreateLogger<QueuedHostedService>();
         }
-
-        public IBackgroundTaskQueue TaskQueue { get; }
 
         protected override async Task ExecuteAsync(CancellationToken cancellationToken)
         {
@@ -24,7 +24,7 @@ namespace kin_leaderboard_api.Services.Hosted
 
             while (!cancellationToken.IsCancellationRequested)
             {
-                var workItem = await TaskQueue.DequeueAsync(cancellationToken);
+                Func<CancellationToken, Task> workItem = await TaskQueue.DequeueAsync(cancellationToken);
 
                 try
                 {
@@ -32,7 +32,7 @@ namespace kin_leaderboard_api.Services.Hosted
                 }
                 catch (Exception ex)
                 {
-                    _logger.LogError(ex,$"ApiError occurred executing {nameof(workItem)}.");
+                    _logger.LogError(ex, $"ApiError occurred executing {nameof(workItem)}.");
                 }
             }
 

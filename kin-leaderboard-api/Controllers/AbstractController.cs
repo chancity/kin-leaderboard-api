@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using kin_leaderboard_api.Models;
+﻿using System.Threading.Tasks;
 using kin_leaderboard_api.Models.ApiResponse;
 using kin_leaderboard_api.Services.Abstract;
 using Microsoft.AspNetCore.Authorization;
@@ -10,9 +6,11 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace kin_leaderboard_api.Controllers
 {
-    public abstract class AbstractController<TService, TModel, TId> : ControllerBase where TService : IAppService<TModel, TId> where TModel : class
+    public abstract class AbstractController<TService, TModel, TId> : ControllerBase
+        where TService : IAppService<TModel, TId> where TModel : class
     {
         protected readonly TService Service;
+
         protected AbstractController(TService service)
         {
             Service = service;
@@ -44,7 +42,7 @@ namespace kin_leaderboard_api.Controllers
         [Authorize]
         public virtual async Task<ActionResult<BaseResponseData<ApiResult>>> Delete(TId id)
         {
-            var ret = await Service.Delete(id).ConfigureAwait(false);
+            int ret = await Service.Delete(id).ConfigureAwait(false);
             return Ok(ToResultReponse(ret));
         }
 

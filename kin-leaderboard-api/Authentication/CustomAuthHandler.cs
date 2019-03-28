@@ -11,14 +11,15 @@ namespace kin_leaderboard_api.Authentication
 {
     internal class CustomAuthHandler : AuthenticationHandler<CustomAuthOptions>
     {
-        public CustomAuthHandler(IOptionsMonitor<CustomAuthOptions> options, ILoggerFactory logger, UrlEncoder encoder, ISystemClock clock) : base(options, logger, encoder, clock)
+        public CustomAuthHandler(IOptionsMonitor<CustomAuthOptions> options, ILoggerFactory logger, UrlEncoder encoder,
+            ISystemClock clock) : base(options, logger, encoder, clock)
         {
             // store custom services here...
         }
-        protected override  Task<AuthenticateResult> HandleAuthenticateAsync()
-        {
 
-            var requestApiKeyValue = Context.Request.Headers["Authorization"].FirstOrDefault();
+        protected override Task<AuthenticateResult> HandleAuthenticateAsync()
+        {
+            string requestApiKeyValue = Context.Request.Headers["Authorization"].FirstOrDefault();
 
             if (requestApiKeyValue != null && requestApiKeyValue.Equals($"Bearer {Options.ApiKey}"))
             {
@@ -27,14 +28,13 @@ namespace kin_leaderboard_api.Authentication
                         new AuthenticationTicket(
                             new ClaimsPrincipal(Options.Identity),
                             new AuthenticationProperties(),
-                            this.Scheme.Name)));
-            }
-            else
-            {
-                return Task.FromResult(AuthenticateResult.NoResult());
+                            Scheme.Name)));
             }
 
+            return Task.FromResult(AuthenticateResult.NoResult());
+
             throw new UnauthorizedApiException("Authorization header missing or incorrect");
+
             //return Task.FromResult(AuthenticateResult.Fail("sd"));
         }
     }

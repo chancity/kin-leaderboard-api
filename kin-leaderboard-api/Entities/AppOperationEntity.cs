@@ -12,6 +12,5 @@ namespace kin_leaderboard_api.Entities
         public string Sender { get; set; }
         public string Recipient { get; set; }
         public long Amount { get; set; }
-
     }
 }

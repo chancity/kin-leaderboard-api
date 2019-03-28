@@ -2,7 +2,6 @@
 using System.Data.Common;
 using System.Net;
 using System.Threading.Tasks;
-using kin_leaderboard_api.Models;
 using kin_leaderboard_api.Models.ApiResponse;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
@@ -76,7 +75,7 @@ namespace kin_leaderboard_api.Exceptions
                 JsonConvert.SerializeObject(
                     new BaseResponse(new ApiError(message, exception?.StackTrace)));
             context.Response.ContentType = "application/json";
-            context.Response.StatusCode = code != HttpStatusCode.SeeOther ? (int)code : 429;
+            context.Response.StatusCode = code != HttpStatusCode.SeeOther ? (int) code : 429;
             return context.Response.WriteAsync(result);
         }
     }

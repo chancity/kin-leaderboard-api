@@ -1,4 +1,5 @@
-﻿namespace kin_leaderboard_api.Models.ApiResponse {
+﻿namespace kin_leaderboard_api.Models.ApiResponse
+{
     public class ApiError
     {
         public string Message { get; }

@@ -1,8 +1,4 @@
-﻿
-using System.ComponentModel.DataAnnotations.Schema;
-using kin_leaderboard_api.Entities;
-
-namespace kin_leaderboard_api.Models
+﻿namespace kin_leaderboard_api.Models
 {
     public class UserWallet
     {

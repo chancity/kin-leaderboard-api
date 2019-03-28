@@ -11,8 +11,7 @@ namespace kin_leaderboard_api.Controllers
     [ApiController]
     public class MetricsController : AbstractController<AppMetricService, AppMetric, string>
     {
-        public MetricsController(AppMetricService service) : base(service)
-        {}
+        public MetricsController(AppMetricService service) : base(service) { }
 
         [HttpGet("{app_id}/{startDay}/{endDay}")]
         public async Task<ActionResult<BaseResponseData<AppMetric[]>>> Get(string app_id, long startDay, long endDay)
@@ -25,16 +24,19 @@ namespace kin_leaderboard_api.Controllers
         {
             throw new NotFoundApiException();
         }
+
         [ApiExplorerSettings(IgnoreApi = true)]
         public override Task<ActionResult<BaseResponseData<ApiResult>>> Post(AppMetric value)
         {
             throw new NotFoundApiException();
         }
+
         [ApiExplorerSettings(IgnoreApi = true)]
         public override Task<ActionResult<BaseResponseData<AppMetric>>> Put(string id, AppMetric value)
         {
             throw new NotFoundApiException();
         }
+
         [ApiExplorerSettings(IgnoreApi = true)]
         public override Task<ActionResult<BaseResponseData<ApiResult>>> Delete(string id)
         {

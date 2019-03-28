@@ -1,4 +1,5 @@
-﻿namespace kin_leaderboard_api.Enums {
+﻿namespace kin_leaderboard_api.Enums
+{
     public enum PaymentType
     {
         P2p = 1,

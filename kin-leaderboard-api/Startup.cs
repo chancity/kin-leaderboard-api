@@ -5,7 +5,6 @@ using kin_leaderboard_api.Authentication;
 using kin_leaderboard_api.Entities;
 using kin_leaderboard_api.Exceptions;
 using kin_leaderboard_api.Models;
-using kin_leaderboard_api.Repository;
 using kin_leaderboard_api.Services;
 using kin_leaderboard_api.Services.Abstract;
 using Microsoft.AspNetCore.Builder;
@@ -16,34 +15,36 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using Swashbuckle.AspNetCore.Swagger;
+using Operation = kin_leaderboard_api.Models.Operation;
 
 namespace kin_leaderboard_api
 {
     public class Startup
     {
         private const string AllOriginPolicyName = "_AllOriginPolicy";
+
+        public IConfiguration Configuration { get; }
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
 
-        public IConfiguration Configuration { get; }
-
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            var isProduction = Configuration["ASPNETCORE_ENVIRONMENT"].Equals("Production");
+            bool isProduction = Configuration["ASPNETCORE_ENVIRONMENT"].Equals("Production");
 
             services.AddTransient<AppService>();
             services.AddTransient<AppMetricService>();
             services.AddTransient<UserWalletService>();
-            services.AddTransient<AbstractService<AppOperationEntity, Models.Operation, long>>();
+            services.AddTransient<AbstractService<AppOperationEntity, Operation, long>>();
             services.AddTransient<AbstractService<PagingTokenEntity, PagingToken, string>>();
 
             services.AddAutoMapper(cfg =>
             {
                 cfg.AllowNullCollections = true;
-                cfg.CreateMap<AppOperationEntity, Models.Operation>().ReverseMap();
+                cfg.CreateMap<AppOperationEntity, Operation>().ReverseMap();
                 cfg.CreateMap<AppEntity, App>().ReverseMap();
                 cfg.CreateMap<AppInfoEntity, AppInfo>().ReverseMap();
                 cfg.CreateMap<PagingTokenEntity, PagingToken>().ReverseMap();
@@ -52,6 +53,7 @@ namespace kin_leaderboard_api
                 cfg.CreateMap<UserWalletEntity, UserWallet>().ReverseMap();
                 cfg.CreateMap<AppPaymentEntity, AppPayment>().ReverseMap();
             });
+
             services.AddMvc()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
                 .AddJsonOptions(options =>
@@ -60,56 +62,52 @@ namespace kin_leaderboard_api
                     options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
                 });
             services.AddSingleton(Configuration);
+
             services.AddDbContext<ApplicationContext>(options =>
                 options.UseMySql(Configuration["ConnectionStrings_ApplicationDatabase"]));
 
 
-                services.AddAuthentication(options =>
-                    {
-                        options.DefaultAuthenticateScheme = "CustomScheme";
-                        options.DefaultChallengeScheme = "CustomScheme";
-                    })
-                    .AddCustomAuth(o =>
-                    {
-                        o.ApiKey = Configuration["Api_Key"];
-                    });
-
-                services.AddCors(options =>
+            services.AddAuthentication(options =>
                 {
-                    options.AddPolicy(AllOriginPolicyName,
-                        builder =>
-                        {
-                            builder.AllowAnyOrigin()
-                                .AllowAnyHeader()
-                                .AllowAnyMethod();
-                        });
+                    options.DefaultAuthenticateScheme = "CustomScheme";
+                    options.DefaultChallengeScheme = "CustomScheme";
+                })
+                .AddCustomAuth(o => { o.ApiKey = Configuration["Api_Key"]; });
 
-                });
+            services.AddCors(options =>
+            {
+                options.AddPolicy(AllOriginPolicyName,
+                    builder =>
+                    {
+                        builder.AllowAnyOrigin()
+                            .AllowAnyHeader()
+                            .AllowAnyMethod();
+                    });
+            });
 
 
-            if (bool.TryParse(Configuration["Swagger_Enabled"], out var ret) && ret)
+            if (bool.TryParse(Configuration["Swagger_Enabled"], out bool ret) && ret)
             {
                 services.AddSwaggerGen(c =>
                 {
-                    c.SwaggerDoc("v1", new Info { Title = "Kin Leader Board API", Version = "v1" });
+                    c.SwaggerDoc("v1", new Info {Title = "Kin Leader Board API", Version = "v1"});
                     c.DescribeAllEnumsAsStrings();
                     c.DescribeStringEnumsInCamelCase();
 
 
-                        c.AddSecurityDefinition("Bearer",
-                            new ApiKeyScheme
-                            {
-                                In = "header",
-                                Description = "Please enter API key with Bearer into field",
-                                Name = "Authorization",
-                                Type = "apiKey"
-                            });
-
-                        c.AddSecurityRequirement(new Dictionary<string, IEnumerable<string>>
+                    c.AddSecurityDefinition("Bearer",
+                        new ApiKeyScheme
                         {
-                            {"Bearer", Enumerable.Empty<string>()},
+                            In = "header",
+                            Description = "Please enter API key with Bearer into field",
+                            Name = "Authorization",
+                            Type = "apiKey"
                         });
-                    
+
+                    c.AddSecurityRequirement(new Dictionary<string, IEnumerable<string>>
+                    {
+                        {"Bearer", Enumerable.Empty<string>()}
+                    });
                 });
             }
         }
@@ -126,21 +124,16 @@ namespace kin_leaderboard_api
             {
                 app.UseHttpStatusCodeExceptionMiddleware();
                 app.UseHsts();
-               // app.UseHttpsRedirection();
+                // app.UseHttpsRedirection();
             }
 
             app.UseCors(AllOriginPolicyName);
 
-            if (bool.TryParse(Configuration["Swagger_Enabled"], out var ret) && ret)
+            if (bool.TryParse(Configuration["Swagger_Enabled"], out bool ret) && ret)
             {
                 app.UseStaticFiles();
                 app.UseSwagger();
-                app.UseSwaggerUI(c =>
-                {
-                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Kin Leader Board API");
-
-                });
-
+                app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "Kin Leader Board API"); });
             }
 
             app.UseAuthentication();

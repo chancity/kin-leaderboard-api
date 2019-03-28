@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace kin_leaderboard_api.Models
+﻿namespace kin_leaderboard_api.Models
 {
     public class App
     {
@@ -11,6 +9,5 @@ namespace kin_leaderboard_api.Models
 
         public AppInfo Info { get; set; }
         public AppWallet Wallet { get; set; }
-
     }
 }

@@ -12,17 +12,16 @@ namespace kin_leaderboard_api.Services
 {
     public class AppMetricService : AbstractService<AppMetricEntity, AppMetric, string>
     {
-
-        public AppMetricService(ILoggerFactory loggerFactory, ApplicationContext context, IMapper mapper) 
-            : base(loggerFactory, context, mapper) {}
+        public AppMetricService(ILoggerFactory loggerFactory, ApplicationContext context, IMapper mapper)
+            : base(loggerFactory, context, mapper) { }
 
 
         public async Task<AppMetric[]> GetByDayRange(string id, long startDay, long endDay)
         {
-            var dbEntity = await Repo.GetContext
-                .AppMetrics.Where(d => d.AppId.Equals(id) && d.EpochTime >= startDay && d.EpochTime <= endDay).OrderByDescending(dto => dto.EpochTime).Take(30).ToArrayAsync();
+            AppMetricEntity[] dbEntity = await Repo.GetContext
+                .AppMetrics.Where(d => d.AppId.Equals(id) && d.EpochTime >= startDay && d.EpochTime <= endDay)
+                .OrderByDescending(dto => dto.EpochTime).Take(30).ToArrayAsync();
 
-               
 
             if (dbEntity == null)
             {

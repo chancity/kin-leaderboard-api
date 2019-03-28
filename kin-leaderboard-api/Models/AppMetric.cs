@@ -1,10 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using kin_leaderboard_api.Entities;
-
-namespace kin_leaderboard_api.Models
+﻿namespace kin_leaderboard_api.Models
 {
     public class AppMetric
     {
+        private long _totalCount;
+
+        private long _totalUniqueCount;
+        private long _totalVolume;
         public long EpochTime { get; set; }
         public string AppId { get; set; }
         public long OperationCount { get; set; }
@@ -19,22 +20,21 @@ namespace kin_leaderboard_api.Models
         public long P2PCount { get; set; }
         public long P2PVolume { get; set; }
 
-        private long _totalUniqueCount;
         public long TotalUniqueCount
         {
-            get { return SpendUniqueCount + EarnUniqueCount + P2PUniqueCount; }
+            get => SpendUniqueCount + EarnUniqueCount + P2PUniqueCount;
             set => _totalUniqueCount = value;
         }
-        private long _totalCount;
+
         public long TotalCount
         {
-            get { return SpendCount + EarnCount + P2PCount; }
+            get => SpendCount + EarnCount + P2PCount;
             set => _totalCount = value;
         }
-        private long _totalVolume;
+
         public long TotalVolume
         {
-            get { return SpendVolume + EarnVolume + P2PVolume; }
+            get => SpendVolume + EarnVolume + P2PVolume;
             set => _totalVolume = value;
         }
     }

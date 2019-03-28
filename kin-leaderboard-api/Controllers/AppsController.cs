@@ -1,12 +1,10 @@
 ﻿using System.Threading.Tasks;
-using kin_leaderboard_api.Entities;
 using kin_leaderboard_api.Exceptions;
 using kin_leaderboard_api.Models;
 using kin_leaderboard_api.Models.ApiResponse;
 using kin_leaderboard_api.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 
 namespace kin_leaderboard_api.Controllers
 {
@@ -14,10 +12,7 @@ namespace kin_leaderboard_api.Controllers
     [ApiController]
     public class AppsController : AbstractController<AppService, App, string>
     {
-        public AppsController(AppService service) : base(service)
-        {
-           
-        }
+        public AppsController(AppService service) : base(service) { }
 
         [HttpGet]
         public async Task<ActionResult<BaseResponseData<App[]>>> GetAllApps()
@@ -26,9 +21,10 @@ namespace kin_leaderboard_api.Controllers
         }
 
         [HttpGet("{id}/UserWallets")]
-        public async Task<ActionResult<BaseResponseData<PaginatedResponse<UserWallet>>>> GetUserWallets(string id, int pageIndex)
+        public async Task<ActionResult<BaseResponseData<PaginatedResponse<UserWallet>>>> GetUserWallets(string id,
+            int pageIndex)
         {
-            var paginatedList = await Service.GetUserWallets(id, pageIndex).ConfigureAwait(false);
+            PaginatedList<UserWallet> paginatedList = await Service.GetUserWallets(id, pageIndex).ConfigureAwait(false);
             return Ok(ToResultReponse(new PaginatedResponse<UserWallet>(paginatedList)));
         }
 
@@ -50,7 +46,8 @@ namespace kin_leaderboard_api.Controllers
         [Authorize]
         public async Task<ActionResult<BaseResponseData<ApiResult>>> UpdateWallet(string id, string address)
         {
-            return Ok(ToResultReponse(await Service.UpdateWallet(id, new AppWallet(){Address = address, Balance = 0}).ConfigureAwait(false)));
+            return Ok(ToResultReponse(await Service.UpdateWallet(id, new AppWallet {Address = address, Balance = 0})
+                .ConfigureAwait(false)));
         }
 
         [ApiExplorerSettings(IgnoreApi = true)]
@@ -58,11 +55,13 @@ namespace kin_leaderboard_api.Controllers
         {
             throw new NotFoundApiException();
         }
+
         [ApiExplorerSettings(IgnoreApi = true)]
         public override Task<ActionResult<BaseResponseData<App>>> Put(string id, App value)
         {
             throw new NotFoundApiException();
         }
+
         [ApiExplorerSettings(IgnoreApi = true)]
         public override Task<ActionResult<BaseResponseData<ApiResult>>> Delete(string id)
         {

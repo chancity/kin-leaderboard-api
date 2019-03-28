@@ -4,6 +4,5 @@
     {
         public string Address { get; set; }
         public long Balance { get; set; }
-
     }
 }

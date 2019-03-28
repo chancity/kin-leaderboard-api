@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
-using kin_leaderboard_api.Models;
-
-namespace kin_leaderboard_api.Entities
+﻿namespace kin_leaderboard_api.Entities
 {
     public class AppEntity
     {

@@ -12,9 +12,9 @@ namespace kin_leaderboard_api.Entities
                 .AddEnvironmentVariables()
                 .Build();
 
-            var builder = new DbContextOptionsBuilder<ApplicationContext>();
+            DbContextOptionsBuilder<ApplicationContext> builder = new DbContextOptionsBuilder<ApplicationContext>();
 
-            var connectionString = configuration["ConnectionStrings_ApplicationDatabase"];
+            string connectionString = configuration["ConnectionStrings_ApplicationDatabase"];
 
             builder.UseMySql(connectionString);
 

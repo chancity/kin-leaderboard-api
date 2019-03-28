@@ -1,10 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace kin_leaderboard_api.Entities {
+namespace kin_leaderboard_api.Entities
+{
     public class AppMetricEntity
     {
         public long EpochTime { get; set; }
         public string AppId { get; set; }
+
         [ForeignKey(nameof(AppId))]
         public AppEntity AppEntity { get; set; }
 

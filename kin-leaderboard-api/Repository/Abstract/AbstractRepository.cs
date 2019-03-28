@@ -7,10 +7,9 @@ namespace kin_leaderboard_api.Repository.Abstract
 {
     public abstract class AbstractRepository<T> where T : class
     {
+        protected readonly ApplicationContext Context;
         private DbSet<T> _dbSet;
         private DbSet<T> DbSet => _dbSet ?? (_dbSet = Context.Set<T>());
-
-        protected readonly ApplicationContext Context;
 
         protected AbstractRepository(ApplicationContext context)
         {
@@ -19,12 +18,12 @@ namespace kin_leaderboard_api.Repository.Abstract
 
         public virtual Task Add(T entity)
         {
-           return DbSet.AddAsync(entity);
+            return DbSet.AddAsync(entity);
         }
 
         public virtual Task Add(IEnumerable<T> entities)
         {
-           return DbSet.AddRangeAsync(entities);
+            return DbSet.AddRangeAsync(entities);
         }
 
         public virtual async Task<int> Create(T entity)

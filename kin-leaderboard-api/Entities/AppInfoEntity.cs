@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
 namespace kin_leaderboard_api.Entities
 {
@@ -14,6 +10,7 @@ namespace kin_leaderboard_api.Entities
         public string Website { get; set; }
         public string Description { get; set; }
         public string ImageUrl { get; set; }
+
         [ForeignKey(nameof(AppId))]
         public AppEntity AppEntity { get; set; }
     }

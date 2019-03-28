@@ -1,5 +1,4 @@
-﻿using kin_leaderboard_api.Entities;
-using kin_leaderboard_api.Enums;
+﻿using kin_leaderboard_api.Enums;
 
 namespace kin_leaderboard_api.Models
 {
@@ -11,6 +10,5 @@ namespace kin_leaderboard_api.Models
         public string Sender { get; set; }
         public string Recipient { get; set; }
         public long Amount { get; set; }
-       
     }
 }

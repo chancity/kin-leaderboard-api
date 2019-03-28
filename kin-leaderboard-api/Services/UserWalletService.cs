@@ -12,14 +12,14 @@ namespace kin_leaderboard_api.Services
 {
     public class UserWalletService : AbstractService<UserWalletEntity, UserWallet, string>
     {
-
-        public UserWalletService(ILoggerFactory loggerFactory, ApplicationContext context, IMapper mapper) 
-            : base(loggerFactory, context, mapper) {}
+        public UserWalletService(ILoggerFactory loggerFactory, ApplicationContext context, IMapper mapper)
+            : base(loggerFactory, context, mapper) { }
 
 
         public async Task<PaginatedList<AppPayment>> GetPayments(string id, string address, int pageIndex = 1)
         {
-            var dbEntityWallet = await Repo.GetContext.UserWallets.FindAsync(id, address).ConfigureAwait(false);
+            UserWalletEntity dbEntityWallet =
+                await Repo.GetContext.UserWallets.FindAsync(id, address).ConfigureAwait(false);
 
             if (dbEntityWallet == null)
             {
@@ -36,7 +36,8 @@ namespace kin_leaderboard_api.Services
 
         public async Task<int> UpdateFriendlyName(string id, string address, string value)
         {
-            var dbEntityWallet = await Repo.GetContext.UserWallets.FindAsync(id, address).ConfigureAwait(false);
+            UserWalletEntity dbEntityWallet =
+                await Repo.GetContext.UserWallets.FindAsync(id, address).ConfigureAwait(false);
 
             if (dbEntityWallet == null)
             {
