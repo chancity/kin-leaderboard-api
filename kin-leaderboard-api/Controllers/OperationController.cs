@@ -27,11 +27,5 @@ namespace kin_leaderboard_api.Controllers
         {
             throw new NotFoundApiException();
         }
-
-        [ApiExplorerSettings(IgnoreApi = true)]
-        public override Task<ActionResult<BaseResponseData<ApiResult>>> Delete(long id)
-        {
-            throw new NotFoundApiException();
-        }
     }
 }
