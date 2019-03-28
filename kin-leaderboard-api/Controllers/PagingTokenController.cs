@@ -10,17 +10,17 @@ namespace kin_leaderboard_api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class PagingTokenController : AbstractController<AbstractService<PagingTokenDto, PagingToken, string>, PagingToken, string>
+    public class PagingTokenController : AbstractController<AbstractService<PagingTokenEntity, PagingToken, string>, PagingToken, string>
     {
-        public PagingTokenController(AbstractService<PagingTokenDto, PagingToken, string> service) : base(service)
+        public PagingTokenController(AbstractService<PagingTokenEntity, PagingToken, string> service) : base(service)
         {}
+
 
         [ApiExplorerSettings(IgnoreApi = true)]
         public override Task<ActionResult<BaseResponseData<ApiResult>>> Post(PagingToken value)
         {
             throw new NotFoundApiException();
         }
-
         [ApiExplorerSettings(IgnoreApi = true)]
         public override Task<ActionResult<BaseResponseData<PagingToken>>> Put(string id, PagingToken value)
         {

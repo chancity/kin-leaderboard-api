@@ -6,14 +6,15 @@ using System.Threading.Tasks;
 
 namespace kin_leaderboard_api.Entities
 {
-    public class AppInfoDto
+    public class AppInfoEntity
     {
         public string AppId { get; set; }
         public string GooglePlay { get; set; }
         public string AppStore { get; set; }
         public string Website { get; set; }
         public string Description { get; set; }
+        public string ImageUrl { get; set; }
         [ForeignKey(nameof(AppId))]
-        public AppDto AppDto { get; set; }
+        public AppEntity AppEntity { get; set; }
     }
 }

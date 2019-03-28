@@ -1,5 +1,5 @@
 ﻿namespace kin_leaderboard_api.Entities {
-    public class UniquePaymentDto
+    public class UniquePaymentEntity
     {
         public string AppId { get; set; }
 

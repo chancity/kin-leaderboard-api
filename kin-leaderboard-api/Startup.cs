@@ -35,18 +35,21 @@ namespace kin_leaderboard_api
 
             services.AddTransient<AppService>();
             services.AddTransient<AppMetricService>();
-            services.AddTransient<AbstractService<AppOperationDto, Models.Operation, long>>();
-            services.AddTransient<AbstractService<PagingTokenDto, PagingToken, string>>();
+            services.AddTransient<UserWalletService>();
+            services.AddTransient<AbstractService<AppOperationEntity, Models.Operation, long>>();
+            services.AddTransient<AbstractService<PagingTokenEntity, PagingToken, string>>();
 
             services.AddAutoMapper(cfg =>
             {
                 cfg.AllowNullCollections = true;
-                cfg.CreateMap<AppOperationDto, Models.Operation>().ReverseMap();
-                cfg.CreateMap<AppDto, App>().ReverseMap();
-                cfg.CreateMap<AppInfoDto, AppInfo>().ReverseMap();
-                cfg.CreateMap<PagingTokenDto, PagingToken>().ReverseMap();
-                cfg.CreateMap<AppWalletDto, AppWallet>().ReverseMap();
-                cfg.CreateMap<DayMetricDto, AppMetric>().ReverseMap();
+                cfg.CreateMap<AppOperationEntity, Models.Operation>().ReverseMap();
+                cfg.CreateMap<AppEntity, App>().ReverseMap();
+                cfg.CreateMap<AppInfoEntity, AppInfo>().ReverseMap();
+                cfg.CreateMap<PagingTokenEntity, PagingToken>().ReverseMap();
+                cfg.CreateMap<AppWalletEntity, AppWallet>().ReverseMap();
+                cfg.CreateMap<AppMetricEntity, AppMetric>().ReverseMap();
+                cfg.CreateMap<UserWalletEntity, UserWallet>().ReverseMap();
+                cfg.CreateMap<AppPaymentEntity, AppPayment>().ReverseMap();
             });
             services.AddMvc()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)

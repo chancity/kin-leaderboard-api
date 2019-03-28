@@ -6,6 +6,8 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using kin_leaderboard_api.Entities;
+using kin_leaderboard_api.Models;
+using kin_leaderboard_api.Services;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -52,8 +54,26 @@ namespace kin_leaderboard_api
                 {
                     var context = services.GetRequiredService<ApplicationContext>();
 
+
                     await context.Database.EnsureCreatedAsync().ConfigureAwait(false);
                     await context.Database.MigrateAsync().ConfigureAwait(false);
+                    var appService = services.GetRequiredService<AppService>();
+
+                    try
+                    {
+                        var ret = await appService.Get("aggregate").ConfigureAwait(false);
+                    }
+                    catch (Exception e)
+                    {
+                        if (e.Message.Contains("'aggregate' not found"))
+                        {
+                            var epochTime = DateTimeOffset.Now.ToUnixTimeSeconds();
+
+                            await appService.Post(new App()
+                                { AppId = "aggregate", FirstSeen = epochTime, FriendlyName = "Aggregated Data", LastSeen = epochTime }).ConfigureAwait(false);
+                        }
+                    }
+                  
                 }
                 catch (InvalidCastException ex)
                 {

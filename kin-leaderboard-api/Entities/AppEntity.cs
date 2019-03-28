@@ -7,18 +7,18 @@ using kin_leaderboard_api.Models;
 
 namespace kin_leaderboard_api.Entities
 {
-    public class AppDto
+    public class AppEntity
     {
         public string AppId { get; set; }
         public string FriendlyName { get; set; }
         public long FirstSeen { get; set; }
         public long LastSeen { get; set; }
-        public virtual AppInfoDto Info { get; set; }
-        public virtual AppWalletDto Wallet { get; set; }
+        public virtual AppInfoEntity Info { get; set; }
+        public virtual AppWalletEntity Wallet { get; set; }
 
-        public AppDto()
+        public AppEntity()
         {
-            Info = new AppInfoDto();
+            Info = new AppInfoEntity();
         }
     }
 }

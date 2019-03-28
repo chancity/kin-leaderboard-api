@@ -10,7 +10,7 @@ using Microsoft.Extensions.Logging;
 
 namespace kin_leaderboard_api.Services
 {
-    public class AppMetricService : AbstractService<DayMetricDto, AppMetric, string>
+    public class AppMetricService : AbstractService<AppMetricEntity, AppMetric, string>
     {
 
         public AppMetricService(ILoggerFactory loggerFactory, ApplicationContext context, IMapper mapper) 
@@ -20,7 +20,7 @@ namespace kin_leaderboard_api.Services
         public async Task<AppMetric[]> GetByDayRange(string id, long startDay, long endDay)
         {
             var dbEntity = await Repo.GetContext
-                .DayMetrics.Where(d => d.AppId.Equals(id) && d.EpochTime >= startDay && d.EpochTime <= endDay).OrderBy(dto => dto.EpochTime).Take(30).ToArrayAsync();
+                .AppMetrics.Where(d => d.AppId.Equals(id) && d.EpochTime >= startDay && d.EpochTime <= endDay).OrderByDescending(dto => dto.EpochTime).Take(30).ToArrayAsync();
 
                
 
@@ -29,7 +29,7 @@ namespace kin_leaderboard_api.Services
                 throw new NotFoundApiException($"{GetType().Name} id '{id}' not found");
             }
 
-            return Mapper.Map<DayMetricDto[], AppMetric[]>(dbEntity);
+            return Mapper.Map<AppMetricEntity[], AppMetric[]>(dbEntity);
         }
     }
 }

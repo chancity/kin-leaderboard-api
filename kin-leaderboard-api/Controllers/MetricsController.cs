@@ -9,15 +9,15 @@ namespace kin_leaderboard_api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AppMetricController : AbstractController<AppMetricService, AppMetric, string>
+    public class MetricsController : AbstractController<AppMetricService, AppMetric, string>
     {
-        public AppMetricController(AppMetricService service) : base(service)
+        public MetricsController(AppMetricService service) : base(service)
         {}
 
-        [HttpGet("{id}/{startDay}/{endDay}")]
-        public async Task<ActionResult<BaseResponseData<AppMetric[]>>> Get(string id, long startDay, long endDay)
+        [HttpGet("{app_id}/{startDay}/{endDay}")]
+        public async Task<ActionResult<BaseResponseData<AppMetric[]>>> Get(string app_id, long startDay, long endDay)
         {
-            return Ok(await Service.GetByDayRange(id, startDay, endDay).ConfigureAwait(false));
+            return Ok(await Service.GetByDayRange(app_id, startDay, endDay).ConfigureAwait(false));
         }
 
         [ApiExplorerSettings(IgnoreApi = true)]
@@ -25,11 +25,11 @@ namespace kin_leaderboard_api.Controllers
         {
             throw new NotFoundApiException();
         }
-       //[ApiExplorerSettings(IgnoreApi = true)]
-        //public override Task<ActionResult<BaseResponseData<ApiResult>>> Post(AppMetric value)
-        //{
-        //    throw new NotFoundApiException();
-        //}
+        [ApiExplorerSettings(IgnoreApi = true)]
+        public override Task<ActionResult<BaseResponseData<ApiResult>>> Post(AppMetric value)
+        {
+            throw new NotFoundApiException();
+        }
         [ApiExplorerSettings(IgnoreApi = true)]
         public override Task<ActionResult<BaseResponseData<AppMetric>>> Put(string id, AppMetric value)
         {

@@ -1,9 +1,8 @@
 ﻿using kin_leaderboard_api.Enums;
-using kin_leaderboard_api.Models;
 
 namespace kin_leaderboard_api.Entities
 {
-    public class AppOperationDto
+    public class AppOperationEntity
     {
         public long PagingToken { get; set; }
         public string Cursor { get; set; }

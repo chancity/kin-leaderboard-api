@@ -9,5 +9,8 @@ namespace kin_leaderboard_api.Models
         public long FirstSeen { get; set; }
         public long LastSeen { get; set; }
 
+        public AppInfo Info { get; set; }
+        public AppWallet Wallet { get; set; }
+
     }
 }
