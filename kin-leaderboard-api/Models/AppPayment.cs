@@ -5,7 +5,7 @@ namespace kin_leaderboard_api.Models
 {
     public class AppPayment
     {
-        public int AppId { get; set; }
+        public string AppId { get; set; }
         public PaymentType PaymentType { get; set; }
         public long EpochTime { get; set; }
         public string Sender { get; set; }

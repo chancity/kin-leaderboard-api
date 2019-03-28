@@ -21,6 +21,7 @@ namespace kin_leaderboard_api
 {
     public class Startup
     {
+        private const string AllOriginPolicyName = "_AllOriginPolicy";
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -72,7 +73,18 @@ namespace kin_leaderboard_api
                     {
                         o.ApiKey = Configuration["Api_Key"];
                     });
-            
+
+                services.AddCors(options =>
+                {
+                    options.AddPolicy(AllOriginPolicyName,
+                        builder =>
+                        {
+                            builder.AllowAnyOrigin()
+                                .AllowAnyHeader()
+                                .AllowAnyMethod();
+                        });
+
+                });
 
 
             if (bool.TryParse(Configuration["Swagger_Enabled"], out var ret) && ret)
@@ -117,6 +129,8 @@ namespace kin_leaderboard_api
                // app.UseHttpsRedirection();
             }
 
+            app.UseCors(AllOriginPolicyName);
+
             if (bool.TryParse(Configuration["Swagger_Enabled"], out var ret) && ret)
             {
                 app.UseStaticFiles();
@@ -130,6 +144,7 @@ namespace kin_leaderboard_api
             }
 
             app.UseAuthentication();
+
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
