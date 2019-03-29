@@ -3,21 +3,20 @@
 
 FROM microsoft/dotnet:2.2-aspnetcore-runtime-nanoserver-1803 AS base
 WORKDIR /app
-EXPOSE 80
-EXPOSE 443
+EXPOSE 5000
 
 FROM microsoft/dotnet:2.2-sdk-nanoserver-1803 AS build
 WORKDIR /src
-COPY ["kin-kre-api/kin-kre-api.csproj", "kin-kre-api/"]
-RUN dotnet restore "kin-kre-api/kin-kre-api.csproj"
+COPY ["kin-leaderboard-api/kin-leaderboard-api.csproj", "kin-leaderboard-api/"]
+RUN dotnet restore "kin-leaderboard-api/kin-leaderboard-api.csproj"
 COPY . .
-WORKDIR "/src/kin-kre-api"
-RUN dotnet build "kin-kre-api.csproj" -c Release -o /app
+WORKDIR "/src/kin-leaderboard-api"
+RUN dotnet build "kin-leaderboard-api.csproj" -c Release -o /app
 
 FROM build AS publish
-RUN dotnet publish "kin-kre-api.csproj" -c Release -o /app
+RUN dotnet publish "kin-leaderboard-api.csproj" -c Release -o /app
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app .
-ENTRYPOINT ["dotnet", "kin-kre-api.dll"]
+ENTRYPOINT ["dotnet", "kin-leaderboard-api.dll"]
