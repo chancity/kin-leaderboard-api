@@ -4,7 +4,7 @@
     <TargetFramework>netcoreapp2.2</TargetFramework>
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
     <RootNamespace>kin_leaderboard_api</RootNamespace>
-    <DockerDefaultTargetOS>Windows</DockerDefaultTargetOS>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <UserSecretsId>741f0d45-06af-414c-80f9-ec0e4a75cb5f</UserSecretsId>
     <AssemblyName>kin-leaderboard-api</AssemblyName>
   </PropertyGroup>
