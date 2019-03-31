@@ -1,5 +1,8 @@
 # kin-leaderboard-api
 
+##
+live version: https://leader-board-api.kinexplorer.com/swagger/index.html
+
 ## docker image
 https://hub.docker.com/r/chancity/kin-leaderboard-api
 
