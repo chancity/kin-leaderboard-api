@@ -13,3 +13,12 @@ https://hub.docker.com/r/chancity/kin-leaderboard-api
 {"Api_Key", "SuperSecretYo"},
 
 {"Swagger_Enabled", "True"}
+
+## triggers 
+Start the app, it will build the database and tables for you.  Then create the 3 triggers below
+
+"update app and paging token trigger.sql" should be set to before insert on app_operation table
+
+"update app metric new wallet & add user wallet & add payment.sql" should be set to after insert on app_operation table
+
+"update app metric new wallet & add user wallet & add payment.sql" should be set to after insert on app_payment table
