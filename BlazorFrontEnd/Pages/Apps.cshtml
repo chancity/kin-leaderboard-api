@@ -1,0 +1,43 @@
+﻿@page "/apps"
+@addTagHelper *,MatBlazor
+@using System.Globalization
+@using kin_leaderboard_frontend.Shared.Models.ApiResponse
+@using Microsoft.AspNetCore.Components
+@using App = kin_leaderboard_frontend.Shared.Models.App
+@inject HttpClient Http
+
+@if (_apps == null)
+{
+    <Loading/>
+}
+else
+{
+    <MatTable Items="@_apps" PageSize="25" Striped="true" ShowPaging="true">
+        <MatTableHeader>
+            <th>Name</th>
+            <th>First Seen</th>
+            <th>Last Seen</th>
+            <th></th>
+            <th></th>
+        </MatTableHeader>
+        <MatTableRow>
+            <td>@(context.FriendlyName ?? @context.AppId)</td>
+            <td>@(TimeSpan.FromSeconds(DateTimeOffset.UtcNow.ToUnixTimeSeconds() - context.FirstSeen).ToString(@"hh\h\:mm\m\:ss\s\:fff\m\s"))</td>
+            <td>@(TimeSpan.FromSeconds(DateTimeOffset.UtcNow.ToUnixTimeSeconds() - context.LastSeen).ToString(@"hh\h\:mm\m\:ss\s\:fff\m\s"))</td>
+            <td><MatButton Link="/" Icon="favorite">Stats</MatButton></td>
+            <td><MatButton Link="@String.Format("/apps/{0}/userwallets", @context.AppId)" Icon="favorite">Wallets</MatButton></td>
+        </MatTableRow>
+    </MatTable>
+}
+
+@functions {
+    App[] _apps;
+
+    protected override async Task OnInitAsync()
+    {
+        BaseResponseData<App[]> resp = await Http.GetJsonAsync<BaseResponseData<App[]>>("api/Apps");
+        //_apps = resp.Data.Where(u => u.FriendlyName != null && u.Info != null && !u.FriendlyName.Equals("Aggregated Data")).ToArray();
+        _apps = resp.Data.OrderByDescending(x => x.LastSeen).ToArray();
+        Console.WriteLine(_apps.Length);
+    }
+}

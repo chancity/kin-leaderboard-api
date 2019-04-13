@@ -1,0 +1,46 @@
+@using MatBlazor.Components.MatAppBar
+@inherits LayoutComponentBase
+@addTagHelper *,MatBlazor
+<MatBlazorInstall />
+
+<MatAppBar Fixed="true" Style="z-index: 100;">
+    <MatAppBarRow>
+        <MatAppBarSection>
+            <MatIconButton OnClick="@((e) => ButtonClicked())" Icon="menu"></MatIconButton>
+            <MatAppBarTitle>Kin Ecosystem Applications</MatAppBarTitle>
+        </MatAppBarSection>
+        <MatAppBarSection Align="@MatAppBarSectionAlign.End">
+            <MatIconButton Icon="favorite"></MatIconButton>
+        </MatAppBarSection>
+    </MatAppBarRow>
+</MatAppBar>
+<container style="padding-top: 64px;">
+    <MatDrawerContainer Style="width: 100vw; height: 100vh; ">
+        <MatDrawer bind-Opened="@Opened">
+            <MatList SingleSelection="true">
+                <MatListItem Href="/">
+                    Home
+                </MatListItem>
+                <MatListItem Href="/apps">
+                    Apps
+                </MatListItem>
+            </MatList>
+        </MatDrawer>
+        <MatDrawerContent Style="padding: 25px">
+            @Body
+        </MatDrawerContent>
+    </MatDrawerContainer>
+</container>
+
+
+
+@functions
+{
+    bool Opened = true;
+
+    void ButtonClicked()
+    {
+        Opened = !Opened;
+    }
+
+}

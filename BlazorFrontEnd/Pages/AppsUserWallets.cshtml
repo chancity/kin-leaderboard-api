@@ -1,0 +1,48 @@
+﻿@page "/apps/{id}/userwallets"
+@addTagHelper *,MatBlazor
+@using System.Globalization
+@using kin_leaderboard_frontend.Shared.Models
+@using kin_leaderboard_frontend.Shared.Models.ApiResponse
+@using Microsoft.AspNetCore.Components
+@inject HttpClient Http
+
+<h1>@id</h1>
+@if (_wallets == null)
+{
+    <Loading />
+}
+else
+{
+    <MatTable Items="@_wallets.Items" PageSize="@_wallets.Items.Length" Striped="true" ShowPaging="true">
+        <MatTableHeader>
+            <th>Name</th>
+            <th>TxCount</th>
+            <th>TxVolume</th>
+            <th>First Seen</th>
+            <th>Last Seen</th>
+            <th></th>
+        </MatTableHeader>
+        <MatTableRow>
+            <td>@(context?.FriendlyName ?? @context.Address.Substring(0,4))</td>
+            <td>@context.TxCount</td>
+            <td>@context.TxVolume</td>
+            <td>@(TimeSpan.FromSeconds(DateTimeOffset.UtcNow.ToUnixTimeSeconds() - context.FirstSeen).ToString(@"hh\h\:mm\m\:ss\s\:fff\m\s"))</td>
+            <td>@(TimeSpan.FromSeconds(DateTimeOffset.UtcNow.ToUnixTimeSeconds() - context.LastSeen).ToString(@"hh\h\:mm\m\:ss\s\:fff\m\s"))</td>
+            <td><MatButton Link="@String.Format("/wallet/{0}/payments/{1}", @context.AppId, @context.Address)" Icon="favorite">Payments</MatButton></td>
+        </MatTableRow>
+    </MatTable>
+}
+
+
+@functions {
+    PaginatedResponse<UserWallet> _wallets;
+    [Parameter]
+    string id { get; set; }
+
+    protected override async Task OnInitAsync()
+    {
+        BaseResponseData<PaginatedResponse<UserWallet>> resp = await Http.GetJsonAsync<BaseResponseData<PaginatedResponse<UserWallet>>>($"api/Apps/{id}/UserWallets?pageIndex=1");
+        _wallets = resp.Data;
+        Console.WriteLine(_wallets.Items.Length);
+    }
+}
