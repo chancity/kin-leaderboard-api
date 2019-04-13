@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
-using kin_leaderboard_api.Enums;
+using kin_leaderboard_frontend.Shared.Enums;
 
 namespace kin_leaderboard_api.Entities
 {

@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
-using kin_leaderboard_api.Models.ApiResponse;
 using kin_leaderboard_api.Services.Abstract;
+using kin_leaderboard_frontend.Shared.Models.ApiResponse;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

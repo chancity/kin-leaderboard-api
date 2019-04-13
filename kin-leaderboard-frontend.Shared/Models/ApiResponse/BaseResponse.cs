@@ -1,11 +1,11 @@
-﻿namespace kin_leaderboard_api.Models.ApiResponse
+﻿namespace kin_leaderboard_frontend.Shared.Models.ApiResponse
 {
     public class BaseResponse
     {
-        public ApiError ApiError { get; }
+        public ApiError ApiError { get; set; }
 
 
-        protected BaseResponse() { }
+        public BaseResponse() { }
 
         public BaseResponse(ApiError apiError)
         {

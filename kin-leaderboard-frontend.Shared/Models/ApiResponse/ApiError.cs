@@ -1,12 +1,12 @@
-﻿namespace kin_leaderboard_api.Models.ApiResponse
+﻿namespace kin_leaderboard_frontend.Shared.Models.ApiResponse
 {
     public class ApiError
     {
-        public string Message { get; }
+        public string Message { get; set; }
 
-        public string Stacktrace { get; }
+        public string Stacktrace { get; set; }
 
-        protected ApiError() { }
+        public ApiError() { }
 
         public ApiError(string message, string stacktrace)
         {

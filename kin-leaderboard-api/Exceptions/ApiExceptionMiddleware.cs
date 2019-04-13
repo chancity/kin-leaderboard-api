@@ -2,7 +2,7 @@
 using System.Data.Common;
 using System.Net;
 using System.Threading.Tasks;
-using kin_leaderboard_api.Models.ApiResponse;
+using kin_leaderboard_frontend.Shared.Models.ApiResponse;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;

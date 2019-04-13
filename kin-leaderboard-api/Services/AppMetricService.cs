@@ -3,8 +3,8 @@ using System.Threading.Tasks;
 using AutoMapper;
 using kin_leaderboard_api.Entities;
 using kin_leaderboard_api.Exceptions;
-using kin_leaderboard_api.Models;
 using kin_leaderboard_api.Services.Abstract;
+using kin_leaderboard_frontend.Shared.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 

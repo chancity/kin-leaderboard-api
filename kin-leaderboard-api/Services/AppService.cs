@@ -3,8 +3,9 @@ using System.Threading.Tasks;
 using AutoMapper;
 using kin_leaderboard_api.Entities;
 using kin_leaderboard_api.Exceptions;
-using kin_leaderboard_api.Models;
+using kin_leaderboard_api.Helper;
 using kin_leaderboard_api.Services.Abstract;
+using kin_leaderboard_frontend.Shared.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
@@ -50,12 +51,12 @@ namespace kin_leaderboard_api.Services
                 throw new NotFoundApiException($"{GetType().Name} id '{id}' not found");
             }
 
-            return await PaginatedList<UserWallet>.CreateAsync(Repo
+            return await Repo
                 .GetContext
                 .UserWallets
                 .AsNoTracking()
                 .Where(w => w.AppId.Equals(id))
-                .OrderByDescending(w => w.LastSeen), Mapper, pageIndex, 25);
+                .OrderByDescending(w => w.LastSeen).CreateAsync<UserWalletEntity, UserWallet>(Mapper, pageIndex, 25);
         }
 
         public async Task<int> UpdateFriendlyName(string id, string value)

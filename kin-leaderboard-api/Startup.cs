@@ -4,18 +4,20 @@ using AutoMapper;
 using kin_leaderboard_api.Authentication;
 using kin_leaderboard_api.Entities;
 using kin_leaderboard_api.Exceptions;
-using kin_leaderboard_api.Models;
 using kin_leaderboard_api.Services;
 using kin_leaderboard_api.Services.Abstract;
+using kin_leaderboard_frontend.Shared.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using Swashbuckle.AspNetCore.Swagger;
-using Operation = kin_leaderboard_api.Models.Operation;
 
 namespace kin_leaderboard_api
 {
@@ -61,6 +63,7 @@ namespace kin_leaderboard_api
                     options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
                     options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
                 });
+
             services.AddSingleton(Configuration);
 
             services.AddDbContext<ApplicationContext>(options =>
@@ -90,30 +93,33 @@ namespace kin_leaderboard_api
             {
                 services.AddSwaggerGen(c =>
                 {
-                    c.SwaggerDoc("v1", new Info {Title = "Kin Leader Board API", Version = "v1"});
+                    c.SwaggerDoc("v1", new OpenApiInfo() {Title = "Kin Leader Board API", Version = "v1"});
                     c.DescribeAllEnumsAsStrings();
                     c.DescribeStringEnumsInCamelCase();
 
-
-                    c.AddSecurityDefinition("Bearer",
-                        new ApiKeyScheme
-                        {
-                            In = "header",
-                            Description = "Please enter API key with Bearer into field",
-                            Name = "Authorization",
-                            Type = "apiKey"
-                        });
-
-                    c.AddSecurityRequirement(new Dictionary<string, IEnumerable<string>>
+                    var key = new OpenApiSecurityScheme()
                     {
-                        {"Bearer", Enumerable.Empty<string>()}
+                        In = ParameterLocation.Header,
+                        Description = "Please enter API key with Bearer into field",
+                        Name = "Authorization",
+                        Type = SecuritySchemeType.ApiKey
+                    };
+
+                    c.AddSecurityDefinition("Bearer", key);
+                    c.AddSecurityRequirement(new OpenApiSecurityRequirement()
+                    {
+                        {key,Enumerable.Empty<string>().ToList()}
                     });
+
+                   
+
+
                 });
             }
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, Microsoft.AspNetCore.Hosting.IHostingEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -136,7 +142,7 @@ namespace kin_leaderboard_api
                 app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "Kin Leader Board API"); });
             }
 
-            app.UseAuthentication();
+           app.UseAuthentication();
 
             app.UseMvc(routes =>
             {
@@ -144,6 +150,7 @@ namespace kin_leaderboard_api
                     "default",
                     "{controller=Home}/{action=Index}");
             });
+
         }
     }
 }

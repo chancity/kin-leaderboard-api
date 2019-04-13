@@ -3,8 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using kin_leaderboard_api.Entities;
-using kin_leaderboard_api.Models;
 using kin_leaderboard_api.Services;
+using kin_leaderboard_frontend.Shared.Models;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -41,7 +41,7 @@ namespace kin_leaderboard_api
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args)
         {
-            return WebHost.CreateDefaultBuilder(args).UseUrls("http://0.0.0.0:5000")
+            return WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>();
         }
 

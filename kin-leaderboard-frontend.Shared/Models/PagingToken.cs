@@ -1,4 +1,4 @@
-﻿namespace kin_leaderboard_api.Models
+﻿namespace kin_leaderboard_frontend.Shared.Models
 {
     public class PagingToken
     {

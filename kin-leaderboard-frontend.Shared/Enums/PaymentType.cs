@@ -1,4 +1,4 @@
-﻿namespace kin_leaderboard_api.Enums
+﻿namespace kin_leaderboard_frontend.Shared.Enums
 {
     public enum PaymentType
     {
