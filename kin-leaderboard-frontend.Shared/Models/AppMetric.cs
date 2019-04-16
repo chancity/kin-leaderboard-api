@@ -19,7 +19,7 @@
         public long P2PUniqueCount { get; set; }
         public long P2PCount { get; set; }
         public long P2PVolume { get; set; }
-
+        
         public long TotalUniqueCount
         {
             get => SpendUniqueCount + EarnUniqueCount + P2PUniqueCount;

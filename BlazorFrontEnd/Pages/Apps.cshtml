@@ -1,6 +1,5 @@
 ﻿@page "/apps"
 @addTagHelper *,MatBlazor
-@using System.Globalization
 @using kin_leaderboard_frontend.Shared.Models.ApiResponse
 @using Microsoft.AspNetCore.Components
 @using App = kin_leaderboard_frontend.Shared.Models.App
@@ -8,7 +7,7 @@
 
 @if (_apps == null)
 {
-    <Loading/>
+    <Loading />
 }
 else
 {
@@ -24,7 +23,7 @@ else
             <td>@(context.FriendlyName ?? @context.AppId)</td>
             <td>@(TimeSpan.FromSeconds(DateTimeOffset.UtcNow.ToUnixTimeSeconds() - context.FirstSeen).ToString(@"hh\h\:mm\m\:ss\s\:fff\m\s"))</td>
             <td>@(TimeSpan.FromSeconds(DateTimeOffset.UtcNow.ToUnixTimeSeconds() - context.LastSeen).ToString(@"hh\h\:mm\m\:ss\s\:fff\m\s"))</td>
-            <td><MatButton Link="/" Icon="favorite">Stats</MatButton></td>
+            <td><MatButton Link="@String.Format("/metrics/{0}/{1}/{2}", @context.AppId, 0, 9554006396)" Icon="favorite">Stats</MatButton></td>
             <td><MatButton Link="@String.Format("/apps/{0}/userwallets", @context.AppId)" Icon="favorite">Wallets</MatButton></td>
         </MatTableRow>
     </MatTable>

@@ -1,0 +1,115 @@
+﻿@page "/metrics/{appId}/{startDay}/{endDay}"
+@addTagHelper *,ChartJs.Blazor
+@using ChartJs.Blazor.ChartJS.Common
+@using ChartJs.Blazor.ChartJS.Common.Legends
+@using ChartJs.Blazor.ChartJS.LineChart
+@using kin_leaderboard_frontend.Shared.Models
+@using Microsoft.AspNetCore.Components
+@using Newtonsoft.Json
+
+@inject HttpClient Http
+
+@if (_lineChartConfig == null)
+{
+    <Loading />
+}
+else
+{
+    <ChartJsLineChart ref="lineChartJs" Config="@_lineChartConfig" Width="600" Height="300" />
+}
+
+@functions {
+    [Parameter]
+    string appId { get; set; }
+
+    [Parameter]
+    string startDay { get; set; }
+
+    [Parameter]
+    string endDay { get; set; }
+
+    AppMetric[] _appMetrics;
+
+    public LineChartConfig _lineChartConfig { get; set; }
+    ChartJsLineChart lineChartJs = new ChartJsLineChart();
+
+
+
+    protected override async Task OnInitAsync()
+    {
+        AppMetric[] resp = await Http.GetJsonAsync<AppMetric[]>($"api/Metrics/{appId}/{startDay}/{endDay}");
+        _appMetrics = resp;
+
+        _lineChartConfig = _lineChartConfig ?? new LineChartConfig
+        {
+            CanvasId = "myFirstLineChart",
+            Options = new LineChartOptions
+            {
+                Text = "Sample chart from Blazor",
+                Display = true,
+                Responsive = true,
+                Title = new OptionsTitle { Display = true, Text = "Line Chart" },
+                Legend = new Legend
+                {
+                    Position = LegendPosition.BOTTOM.ToString(),
+                    Labels = new Labels
+                    {
+                        UsePointStyle = true
+                    }
+                },
+                Tooltips = new Tooltips
+                {
+                    Mode = Mode.nearest,
+                    Intersect = false
+                },
+                Scales = new Scales
+                {
+                    xAxes = new List<Axis>
+{
+                        new Axis
+                        {
+                            ScaleLabel = new ScaleLabel
+                            {
+                                LabelString = ".labelString"
+                            }
+                        }
+                    },
+                    yAxes = new List<Axis>
+{
+                        new Axis
+                        {
+                            ScaleLabel = new ScaleLabel
+                            {
+                                LabelString = "..label"
+                            }
+                        }
+                    }
+                },
+                Hover = new LineChartOptionsHover
+                {
+                    Intersect = true,
+                    Mode = Mode.nearest
+                }
+            },
+            Data = new LineChartData
+            {
+                Labels = resp.Select(x => DateTimeOffset.FromUnixTimeSeconds(x.EpochTime).LocalDateTime.ToShortDateString()).ToList(),
+                Datasets = new List<LineChartDataset>
+{
+                    new LineChartDataset
+                    {
+                        BackgroundColor = "#ff6384",
+                        BorderColor = "#ff6384",
+                        Label = "# of Votes from blazor",
+                        Data = new List<object> {_appMetrics.Select(x => x.TotalUniqueCount).ToList()},
+                        Fill = false,
+                        BorderWidth = 2,
+                        PointRadius = 3,
+                        PointBorderWidth = 1
+                    }
+                }
+            }
+        };
+        Console.WriteLine(JsonConvert.SerializeObject(_lineChartConfig.Data));
+    }
+}
