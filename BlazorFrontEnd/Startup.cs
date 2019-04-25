@@ -13,8 +13,8 @@ namespace BlazorFrontEnd
 
         public void Configure(IComponentsApplicationBuilder app)
         {
-            var httpClient = app.Services.GetRequiredService<HttpClient>();
-            httpClient.BaseAddress = new Uri("https://leader-board-api.kinexplorer.com");
+         //   var httpClient = app.Services.GetRequiredService<HttpClient>();
+          //  httpClient.BaseAddress = new Uri("https://leader-board-api.kinexplorer.com");
 
             app.AddComponent<App>("app");
         }

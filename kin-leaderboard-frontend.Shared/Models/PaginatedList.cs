@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using AutoMapper;
 
 namespace kin_leaderboard_frontend.Shared.Models
 {

@@ -1,21 +1,18 @@
 ﻿@page "/metrics/{appId}/{startDay}/{endDay}"
-@addTagHelper *,ChartJs.Blazor
 @using ChartJs.Blazor.ChartJS.Common
 @using ChartJs.Blazor.ChartJS.Common.Legends
 @using ChartJs.Blazor.ChartJS.LineChart
-@using kin_leaderboard_frontend.Shared.Models
+@using ChartJs.Blazor.Charts
 @using Microsoft.AspNetCore.Components
-@using Newtonsoft.Json
 
 @inject HttpClient Http
-
-@if (_lineChartConfig == null)
+@if (lineChartConfig == null)
 {
     <Loading />
 }
 else
 {
-    <ChartJsLineChart ref="lineChartJs" Config="@_lineChartConfig" Width="600" Height="300" />
+    <ChartJsLineChart ref="lineChartJs" Config="@lineChartConfig" Width="600" Height="300" />
 }
 
 @functions {
@@ -30,25 +27,24 @@ else
 
     AppMetric[] _appMetrics;
 
-    public LineChartConfig _lineChartConfig { get; set; }
+    public LineChartConfig lineChartConfig { get; set; }
     ChartJsLineChart lineChartJs = new ChartJsLineChart();
-
-
 
     protected override async Task OnInitAsync()
     {
-        AppMetric[] resp = await Http.GetJsonAsync<AppMetric[]>($"api/Metrics/{appId}/{startDay}/{endDay}");
-        _appMetrics = resp;
 
-        _lineChartConfig = _lineChartConfig ?? new LineChartConfig
+        AppMetric[] resp = await Http.GetJsonAsync<AppMetric[]>($"api/Metrics/{appId}/{startDay}/{endDay}");
+        _appMetrics = resp.Reverse().ToArray();
+
+        lineChartConfig = lineChartConfig ?? new LineChartConfig
         {
-            CanvasId = "myFirstLineChart",
+            CanvasId = "total-unique-" + appId,
             Options = new LineChartOptions
             {
-                Text = "Sample chart from Blazor",
+                Text = "Total Unique Transactions",
                 Display = true,
                 Responsive = true,
-                Title = new OptionsTitle { Display = true, Text = "Line Chart" },
+                Title = new OptionsTitle { Display = true, Text = "Total Operations" },
                 Legend = new Legend
                 {
                     Position = LegendPosition.BOTTOM.ToString(),
@@ -59,7 +55,7 @@ else
                 },
                 Tooltips = new Tooltips
                 {
-                    Mode = Mode.nearest,
+                    Mode = Mode.point,
                     Intersect = false
                 },
                 Scales = new Scales
@@ -70,7 +66,7 @@ else
                         {
                             ScaleLabel = new ScaleLabel
                             {
-                                LabelString = ".labelString"
+                                LabelString = ""
                             }
                         }
                     },
@@ -80,7 +76,7 @@ else
                         {
                             ScaleLabel = new ScaleLabel
                             {
-                                LabelString = "..label"
+                                LabelString = "Transactions"
                             }
                         }
                     }
@@ -88,20 +84,20 @@ else
                 Hover = new LineChartOptionsHover
                 {
                     Intersect = true,
-                    Mode = Mode.nearest
+                    Mode = Mode.index
                 }
             },
             Data = new LineChartData
             {
-                Labels = resp.Select(x => DateTimeOffset.FromUnixTimeSeconds(x.EpochTime).LocalDateTime.ToShortDateString()).ToList(),
+                Labels = _appMetrics.Select(x => DateTimeOffset.FromUnixTimeSeconds(x.EpochTime).LocalDateTime.ToShortDateString()).ToList(),
                 Datasets = new List<LineChartDataset>
 {
                     new LineChartDataset
                     {
                         BackgroundColor = "#ff6384",
                         BorderColor = "#ff6384",
-                        Label = "# of Votes from blazor",
-                        Data = new List<object> {_appMetrics.Select(x => x.TotalUniqueCount).ToList()},
+                        Label = appId,
+                        Data = _appMetrics.Select(x => x.OperationCount).OfType<object>().ToList(),
                         Fill = false,
                         BorderWidth = 2,
                         PointRadius = 3,
@@ -110,6 +106,6 @@ else
                 }
             }
         };
-        Console.WriteLine(JsonConvert.SerializeObject(_lineChartConfig.Data));
+        Console.WriteLine(JsonConvert.SerializeObject(lineChartConfig));
     }
 }

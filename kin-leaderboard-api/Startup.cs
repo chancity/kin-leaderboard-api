@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using AutoMapper;
 using kin_leaderboard_api.Authentication;
 using kin_leaderboard_api.Entities;
@@ -9,15 +8,12 @@ using kin_leaderboard_api.Services.Abstract;
 using kin_leaderboard_frontend.Shared.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using Newtonsoft.Json;
-using Swashbuckle.AspNetCore.Swagger;
 
 namespace kin_leaderboard_api
 {
@@ -56,13 +52,12 @@ namespace kin_leaderboard_api
                 cfg.CreateMap<AppPaymentEntity, AppPayment>().ReverseMap();
             });
 
-            services.AddMvc()
-                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
-                .AddJsonOptions(options =>
-                {
-                    options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-                    options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
-                });
+  
+            services.AddResponseCompression(opts =>
+            {
+                opts.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(
+                    new[] { "application/octet-stream" });
+            });
 
             services.AddSingleton(Configuration);
 
@@ -116,14 +111,18 @@ namespace kin_leaderboard_api
 
                 });
             }
+
+            services.AddMvc().AddNewtonsoftJson();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, Microsoft.AspNetCore.Hosting.IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseResponseCompression();
             if (env.IsDevelopment())
             {
                 app.UseHttpStatusCodeExceptionMiddleware();
+                app.UseBlazorDebugging();
                 // app.UseDeveloperExceptionPage();
             }
             else
@@ -144,12 +143,11 @@ namespace kin_leaderboard_api
 
            app.UseAuthentication();
 
-            app.UseMvc(routes =>
-            {
-                routes.MapRoute(
-                    "default",
-                    "{controller=Home}/{action=Index}");
-            });
+           app.UseMvc(routes =>
+           {
+               routes.MapRoute(name: "default", template: "{controller}/{action}/{id?}");
+           });
+            app.UseBlazor<BlazorFrontEnd.Program>();
 
         }
     }
