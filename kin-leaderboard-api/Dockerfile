@@ -65,6 +65,8 @@ RUN curl -SL --output PowerShell.Linux.x64.$POWERSHELL_VERSION.nupkg https://pws
 
 WORKDIR /src
 COPY ["kin-leaderboard-api/kin-leaderboard-api.csproj", "kin-leaderboard-api/"]
+COPY ["BlazorFrontEnd/BlazorFrontEnd.csproj", "BlazorFrontEnd/"]
+COPY ["kin-leaderboard-frontend.Shared/kin-leaderboard-frontend.Shared.csproj", "kin-leaderboard-frontend.Shared/"]
 RUN dotnet restore "kin-leaderboard-api/kin-leaderboard-api.csproj"
 COPY . .
 WORKDIR "/src/kin-leaderboard-api"
