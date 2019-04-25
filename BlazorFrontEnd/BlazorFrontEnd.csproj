@@ -22,7 +22,7 @@
   <ItemGroup>
     <ProjectReference Include="..\kin-leaderboard-frontend.Shared\kin-leaderboard-frontend.Shared.csproj" />
   </ItemGroup>
-  <ItemGroup>
+<ItemGroup>
     <BlazorLinkerDescriptor Include="Linker.xml" />
   </ItemGroup>
 </Project>
