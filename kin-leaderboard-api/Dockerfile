@@ -14,7 +14,7 @@ RUN dotnet build "kin-leaderboard-api.csproj" -c Release -o /app
 
 FROM build AS publish
 RUN dotnet publish "kin-leaderboard-api.csproj" -c Release -o /app
-
+RUN sed -i 's/TLSv1.2/TLSv1.0/g' /etc/ssl/openssl.cnf
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app .
