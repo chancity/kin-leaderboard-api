@@ -1,8 +1,8 @@
-FROM mcr.microsoft.com/dotnet/core-nightly/aspnet:3.0 AS base
+FROM mcr.microsoft.com/dotnet/core/aspnet:3.0.0-preview5 AS base
 WORKDIR /app
 EXPOSE 5000
 
-FROM mcr.microsoft.com/dotnet/core-nightly/sdk:3.0 AS build
+FROM mcr.microsoft.com/dotnet/core/sdk:3.0.0-preview5 AS build
 WORKDIR /src
 COPY ["kin-leaderboard-api/kin-leaderboard-api.csproj", "kin-leaderboard-api/"]
 COPY ["BlazorFrontEnd/BlazorFrontEnd.csproj", "BlazorFrontEnd/"]
