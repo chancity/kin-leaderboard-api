@@ -16,6 +16,7 @@ namespace BlazorFrontEnd
          //   var httpClient = app.Services.GetRequiredService<HttpClient>();
           //  httpClient.BaseAddress = new Uri("https://leader-board-api.kinexplorer.com");
 
+          
             app.AddComponent<App>("app");
         }
     }

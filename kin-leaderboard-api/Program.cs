@@ -62,7 +62,7 @@ namespace kin_leaderboard_api
 
                     try
                     {
-                        App ret = await appService.Get("aggregate").ConfigureAwait(false);
+                        Appp ret = await appService.Get("aggregate").ConfigureAwait(false);
                     }
                     catch (Exception e)
                     {
@@ -70,7 +70,7 @@ namespace kin_leaderboard_api
                         {
                             long epochTime = DateTimeOffset.Now.ToUnixTimeSeconds();
 
-                            await appService.Post(new App
+                            await appService.Post(new Appp
                             {
                                 AppId = "aggregate", FirstSeen = epochTime, FriendlyName = "Aggregated Data",
                                 LastSeen = epochTime

@@ -1,6 +1,6 @@
 ﻿namespace kin_leaderboard_frontend.Shared.Models
 {
-    public class App
+    public class Appp
     {
         public string AppId { get; set; }
         public string FriendlyName { get; set; }

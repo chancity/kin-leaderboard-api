@@ -1,5 +1,5 @@
 ﻿@page "/wallet/{id}/payments/{address}"
-@using Microsoft.AspNetCore.Components.Services
+
 @inject HttpClient Http
 @inject IUriHelper UriHelper
 
@@ -18,8 +18,8 @@ else
             <th>Time</th>
         </MatTableHeader>
         <MatTableRow>
-            <td>@(@context.Sender.Substring(0, 4))</td>
-            <td>@(@context.Recipient.Substring(0, 4))</td>
+            <td>@(context.Sender.Substring(0, 4))</td>
+            <td>@(context.Recipient.Substring(0, 4))</td>
             <td>@context.Amount.ToString("N") KIN</td>
             <td>@(TimeSpan.FromSeconds(DateTimeOffset.UtcNow.ToUnixTimeSeconds() - context.EpochTime).ToString(@"hh\h\:mm\m\:ss\s\:fff\m\s"))</td>
         </MatTableRow>

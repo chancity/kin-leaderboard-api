@@ -18,7 +18,7 @@ else
             <th></th>
         </MatTableHeader>
         <MatTableRow>
-            <td>@(context?.FriendlyName ?? @context.Address.Substring(0,4))</td>
+            <td>@(context?.FriendlyName ?? @context.Address.Substring(0, 4))</td>
             <td>@context.TxCount</td>
             <td>@context.TxVolume</td>
             <td>@(TimeSpan.FromSeconds(DateTimeOffset.UtcNow.ToUnixTimeSeconds() - context.FirstSeen).ToString(@"hh\h\:mm\m\:ss\s\:fff\m\s"))</td>

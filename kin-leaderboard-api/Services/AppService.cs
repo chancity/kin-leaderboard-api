@@ -11,12 +11,12 @@ using Microsoft.Extensions.Logging;
 
 namespace kin_leaderboard_api.Services
 {
-    public class AppService : AbstractService<AppEntity, App, string>
+    public class AppService : AbstractService<AppEntity, Appp, string>
     {
         public AppService(ILoggerFactory loggerFactory, ApplicationContext context, IMapper mapper)
             : base(loggerFactory, context, mapper) { }
 
-        public override async Task<App> Get(string id)
+        public override async Task<Appp> Get(string id)
         {
             AppEntity dbEntity = await Repo.GetContext
                 .Apps
@@ -29,17 +29,17 @@ namespace kin_leaderboard_api.Services
                 throw new NotFoundApiException($"{GetType().Name} id '{id}' not found");
             }
 
-            return Mapper.Map<AppEntity, App>(dbEntity);
+            return Mapper.Map<AppEntity, Appp>(dbEntity);
         }
 
-        public async Task<App[]> GetAllApps()
+        public async Task<Appp[]> GetAllApps()
         {
             AppEntity[] dbEntity = await Repo.GetContext
                 .Apps
                 .Include(a => a.Info)
                 .Include(a => a.Wallet).ToArrayAsync().ConfigureAwait(false);
 
-            return Mapper.Map<AppEntity[], App[]>(dbEntity);
+            return Mapper.Map<AppEntity[], Appp[]>(dbEntity);
         }
 
         public async Task<PaginatedList<UserWallet>> GetUserWallets(string id, int pageIndex = 1)

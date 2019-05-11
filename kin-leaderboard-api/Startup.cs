@@ -8,6 +8,7 @@ using kin_leaderboard_api.Services.Abstract;
 using kin_leaderboard_frontend.Shared.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -32,7 +33,7 @@ namespace kin_leaderboard_api
         public void ConfigureServices(IServiceCollection services)
         {
             bool isProduction = Configuration["ASPNETCORE_ENVIRONMENT"].Equals("Production");
-
+        
             services.AddTransient<AppService>();
             services.AddTransient<AppMetricService>();
             services.AddTransient<UserWalletService>();
@@ -43,7 +44,7 @@ namespace kin_leaderboard_api
             {
                 cfg.AllowNullCollections = true;
                 cfg.CreateMap<AppOperationEntity, Operation>().ReverseMap();
-                cfg.CreateMap<AppEntity, App>().ReverseMap();
+                cfg.CreateMap<AppEntity, Appp>().ReverseMap();
                 cfg.CreateMap<AppInfoEntity, AppInfo>().ReverseMap();
                 cfg.CreateMap<PagingTokenEntity, PagingToken>().ReverseMap();
                 cfg.CreateMap<AppWalletEntity, AppWallet>().ReverseMap();
@@ -112,7 +113,7 @@ namespace kin_leaderboard_api
                 });
             }
 
-            services.AddMvc().AddNewtonsoftJson();
+            services.AddMvc(o => { o.EnableEndpointRouting = false; }).AddNewtonsoftJson();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -143,10 +144,10 @@ namespace kin_leaderboard_api
 
            app.UseAuthentication();
 
-           app.UseMvc(routes =>
-           {
-               routes.MapRoute(name: "default", template: "{controller}/{action}/{id?}");
-           });
+         app.UseMvc(routes =>
+         {
+             routes.MapRoute(name: "default", template: "{controller}/{action}/{id?}");
+         });
             app.UseBlazor<BlazorFrontEnd.Program>();
 
         }
