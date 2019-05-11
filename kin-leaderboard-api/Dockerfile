@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/core-nightlyk/aspnet:3.0 AS base
+FROM mcr.microsoft.com/dotnet/core-nightly/aspnet:3.0 AS base
 WORKDIR /app
 EXPOSE 5000
 
