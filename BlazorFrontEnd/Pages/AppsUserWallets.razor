@@ -1,5 +1,6 @@
 ﻿@page "/apps/{id}/userwallets"
-@inject HttpClient Http
+@using BlazorFrontEnd.Api
+@inject ApiClient Http
 
 <h1>@id</h1>
 @if (_wallets == null)
@@ -38,6 +39,5 @@ else
     {
         BaseResponseData<PaginatedResponse<UserWallet>> resp = await Http.GetJsonAsync<BaseResponseData<PaginatedResponse<UserWallet>>>($"api/Apps/{id}/UserWallets?pageIndex=1");
         _wallets = resp.Data;
-        Console.WriteLine(_wallets.Items.Length);
     }
 }

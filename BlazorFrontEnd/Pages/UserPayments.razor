@@ -1,6 +1,6 @@
 ﻿@page "/wallet/{id}/payments/{address}"
 
-@inject HttpClient Http
+@inject ApiClient Http
 @inject IUriHelper UriHelper
 
 <h1>@address</h1>
@@ -38,7 +38,6 @@ else
     {
         BaseResponseData<PaginatedResponse<AppPayment>> resp = await Http.GetJsonAsync<BaseResponseData<PaginatedResponse<AppPayment>>>($"api/wallets/{id}/payments?address={address}&pageIndex=1");
         _payments = resp.Data;
-        Console.WriteLine(_payments.Items.Length);
     }
 
 }

@@ -35,7 +35,7 @@ namespace kin_leaderboard_api
             IConfiguration configuration = builder.Build();
 
             IWebHost host = CreateWebHostBuilder(args).UseConfiguration(configuration).Build();
-            DbSeed(host).Wait();
+            //DbSeed(host).Wait();
             host.Run();
         }
 

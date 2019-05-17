@@ -1,7 +1,46 @@
 ﻿@page "/"
+@using App = kin_leaderboard_frontend.Shared.Models.Appp
+@inject ApiClient Http
 
-<h1>Hello, world!</h1>
+@if (_apps == null)
+{
+    <Loading/>
+}
+else
+{
+    int columns = 4;
+    int pages = _apps.Length;
+    int remainder = _apps.Length % columns;
+    if (remainder > 0)
+    {
+        pages++;
+    }
 
-Welcome to your new app.
+    <div class="mat-layout-grid">
+        <div class="mat-layout-grid-inner">
 
-<SurveyPrompt Title="How is Blazor working for you?" />
+            @for (int i = 0; i < pages; i++)
+            {
+                @foreach (App app in _apps.Skip(i * columns).Take(columns))
+                 {
+                     <div class="mat-layout-grid-cell mat-elevation-z4">
+                         <AppCardComponent App="@app"/>
+                     </div>
+                 }
+            }
+        </div>
+    </div>
+}
+
+
+@functions {
+    App[] _apps;
+
+    protected override async Task OnInitAsync()
+    {
+        BaseResponseData<Appp[]> resp = await Http.GetJsonAsync<BaseResponseData<Appp[]>>("api/Apps");
+    //_apps = resp.Data.Where(u => u.FriendlyName != null && u.Info != null && !u.FriendlyName.Equals("Aggregated Data")).ToArray();
+        _apps = resp.Data.OrderByDescending(x => x.LastSeen).Where(x => !string.IsNullOrEmpty(x.AppId)).ToArray();
+    }
+
+}

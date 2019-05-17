@@ -15,6 +15,7 @@
     <PackageReference Include="ChartJs.Blazor" Version="0.9.1-preview" />
     <PackageReference Include="MatBlazor" Version="0.9.11" />
     <PackageReference Include="Microsoft.AspNetCore.Blazor" Version="3.0.0-preview5-19227-01" />
+	<PackageReference Include="Cloudcrate.AspNetCore.Blazor.Browser.Storage" Version="3.0.0-preview5-19227-01" />
     <PackageReference Include="Microsoft.AspNetCore.Blazor.Build" Version="3.0.0-preview5-19227-01" PrivateAssets="all" />
   </ItemGroup>
 

@@ -13,19 +13,19 @@
     </MatAppBarRow>
 </MatAppBar>
 <container style="padding-top: 64px;">
-    <MatDrawerContainer Style="width: 100vw; height: 100vh; ">
+    <MatDrawerContainer Style="width: 100vw; height: 100vh;">
         <MatDrawer bind-Opened="@Opened">
             <MatList SingleSelection="true">
                 <MatListItem Href="/">
-                    Home
+                    Top Stats
                 </MatListItem>
                 <MatListItem Href="/apps">
                     Apps
                 </MatListItem>
             </MatList>
         </MatDrawer>
-        <MatDrawerContent Style="padding: 25px">
-            @Body
+        <MatDrawerContent Style="padding: 25px; overflow: visible; ">
+                @Body
         </MatDrawerContent>
     </MatDrawerContainer>
 </container>
@@ -34,7 +34,7 @@
 
 @functions
 {
-    bool Opened = true;
+    bool Opened = false;
 
     void ButtonClicked()
     {

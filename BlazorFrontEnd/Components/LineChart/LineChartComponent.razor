@@ -1,0 +1,107 @@
+﻿@inherits Microsoft.AspNetCore.Components.ComponentBase
+@using ChartJs.Blazor
+@using ChartJs.Blazor.ChartJS.Common
+@using ChartJs.Blazor.ChartJS.Common.Legends
+@using ChartJs.Blazor.ChartJS.LineChart
+@using ChartJs.Blazor.Charts
+
+@if (LineChartConfig == null)
+{
+<Loading />
+}
+else
+{
+<ChartJsLineChart ref="lineChartJs" Config="@LineChartConfig" Width="600" Height="300" />
+}
+
+
+@functions {
+
+
+        [Parameter]
+        string DataType { get; set; }
+        [Parameter]
+        List<object> Points { get; set; }
+        [Parameter]
+        List<string> Labels { get; set; }
+
+        public LineChartConfig LineChartConfig { get; set; }
+        ChartJsLineChart lineChartJs = new ChartJsLineChart();
+
+        protected override Task OnInitAsync()
+        {
+          
+            LineChartConfig = LineChartConfig ?? new LineChartConfig
+            {
+                CanvasId = DataType.ToLower().Replace(" ", "-"),
+                Options = new LineChartOptions
+                {
+                    Text = DataType,
+                    Display = true,
+                    Responsive = true,
+                    Title = new OptionsTitle { Display = true, Text = DataType },
+                    Legend = new Legend
+                    {
+                        Position = LegendPosition.BOTTOM.ToString(),
+                        Labels = new Labels
+                        {
+                            UsePointStyle = true
+                        }
+                    },
+                    Tooltips = new Tooltips
+                    {
+                        Mode = Mode.point,
+                        Intersect = false
+                    },
+                    Scales = new Scales
+                    {
+                        xAxes = new List<Axis>
+{
+                        new Axis
+                        {
+                            ScaleLabel = new ScaleLabel
+                            {
+                                LabelString = ""
+                            }
+                        }
+                    },
+                        yAxes = new List<Axis>
+{
+                        new Axis
+                        {
+                            ScaleLabel = new ScaleLabel
+                            {
+                                LabelString = ""
+                            }
+                        }
+                    }
+                    },
+                    Hover = new LineChartOptionsHover
+                    {
+                        Intersect = true,
+                        Mode = Mode.index
+                    }
+                },
+                Data = new LineChartData
+                {
+                    Labels = Labels,
+                    Datasets = new List<LineChartDataset>
+{
+                    new LineChartDataset
+                    {
+                        BackgroundColor = "#ff6384",
+                        BorderColor = "#ff6384",
+                        Data = Points,
+                        Fill = false,
+                        BorderWidth = 2,
+                        PointRadius = 3,
+                        PointBorderWidth = 1
+                    }
+                }
+                }
+            };
+
+            return base.OnInitAsync();
+        }
+}
+

@@ -4,7 +4,7 @@
 @using ChartJs.Blazor.ChartJS.LineChart
 @using ChartJs.Blazor.Charts
 
-@inject HttpClient Http
+@inject ApiClient Http
 @if (lineChartConfig == null)
 {
     <Loading />
@@ -105,6 +105,5 @@ else
                 }
             }
         };
-        Console.WriteLine(JsonConvert.SerializeObject(lineChartConfig));
     }
 }

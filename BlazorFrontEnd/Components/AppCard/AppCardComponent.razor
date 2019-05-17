@@ -1,0 +1,17 @@
+﻿@inherits AppCard
+@using BlazorFrontEnd.Components;
+@using ChartJs.Blazor.Charts
+<h2 style="margin-top: 5px; text-align: center;">@(App?.FriendlyName ?? App?.AppId ?? "wtf")</h2>
+
+@if (AppMetrics == null)
+{
+<Loading />
+}
+else
+{
+
+
+    <ChartJsLineChart ref="lineChartJs" Config="@lineChartConfig" Width="600" Height="300" />
+
+
+}
